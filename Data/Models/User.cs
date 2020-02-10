@@ -10,6 +10,6 @@ namespace SportBox7.Data.Models
     {
         public virtual ICollection<Article> Articles { get; set; }
 
-        public int MyProperty { get; set; }
+        
     }
 }
