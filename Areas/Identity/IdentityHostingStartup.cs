@@ -14,8 +14,12 @@ namespace SportBox7.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
-            });
+            if (builder != null)
+            {
+                builder.ConfigureServices((context, services) => {
+                });
+            }
+            
         }
     }
 }

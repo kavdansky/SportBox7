@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportBox7.Data;
 
 namespace SportBox7.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200210163926_Migration100220201839")]
+    partial class Migration100220201839
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,6 +252,9 @@ namespace SportBox7.Data.Migrations
                     b.Property<DateTime>("LastModDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("SeoInfoId")
+                        .HasColumnType("int");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -263,7 +268,7 @@ namespace SportBox7.Data.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
+            modelBuilder.Entity("SportBox7.Data.Models.ArticleCeoData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -358,11 +363,11 @@ namespace SportBox7.Data.Migrations
                         .HasForeignKey("CreatorId");
                 });
 
-            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
+            modelBuilder.Entity("SportBox7.Data.Models.ArticleCeoData", b =>
                 {
                     b.HasOne("SportBox7.Data.Models.Article", "Article")
                         .WithOne("ArticleSeoData")
-                        .HasForeignKey("SportBox7.Data.Models.ArticleSeoData", "ArticleId")
+                        .HasForeignKey("SportBox7.Data.Models.ArticleCeoData", "ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

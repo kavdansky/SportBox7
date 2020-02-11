@@ -151,8 +151,6 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\tr\Micro
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Logging.Debug.dll
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ConfirmEmail.cshtml.g.cs
@@ -192,3 +190,5 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Ar
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Error.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cache

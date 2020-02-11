@@ -8,7 +8,7 @@ namespace SportBox7.Data.Models
 {
     public class User : IdentityUser
     {
-        public virtual ICollection<Article> Articles { get; set; }
+        public virtual ICollection<Article> Articles { get; }
 
         
     }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportBox7.Data;
 
 namespace SportBox7.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200210154353_Migration100220201743")]
+    partial class Migration100220201743
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -263,36 +265,6 @@ namespace SportBox7.Data.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MetaDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaKeyword")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MetaTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SeoUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleId")
-                        .IsUnique();
-
-                    b.ToTable("ArticlesSeoData");
-                });
-
             modelBuilder.Entity("SportBox7.Data.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -356,15 +328,6 @@ namespace SportBox7.Data.Migrations
                     b.HasOne("SportBox7.Data.Models.User", "User")
                         .WithMany("Articles")
                         .HasForeignKey("CreatorId");
-                });
-
-            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
-                {
-                    b.HasOne("SportBox7.Data.Models.Article", "Article")
-                        .WithOne("ArticleSeoData")
-                        .HasForeignKey("SportBox7.Data.Models.ArticleSeoData", "ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
