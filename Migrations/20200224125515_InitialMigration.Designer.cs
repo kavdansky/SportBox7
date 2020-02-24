@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SportBox7.Data;
 
-namespace SportBox7.Data.Migrations
+namespace SportBox7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200210080116_AddedUsersInProject")]
-    partial class AddedUsersInProject
+    [Migration("20200224125515_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,14 +234,122 @@ namespace SportBox7.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("CreatorId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("EnableComments")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastModDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SourceName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SourceURL")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MetaDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MetaKeyword")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MetaTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SeoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId")
+                        .IsUnique();
+
+                    b.ToTable("ArticlesSeoData");
+                });
+
+            modelBuilder.Entity("SportBox7.Data.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CommentBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CommenterName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("SportBox7.Data.Models.League", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LeagueName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeagueNameAlternate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LeagueNameInBulgarian")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SportName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SportNameInBulgarian")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Leagues");
                 });
 
             modelBuilder.Entity("SportBox7.Data.Models.User", b =>
@@ -307,6 +415,24 @@ namespace SportBox7.Data.Migrations
                     b.HasOne("SportBox7.Data.Models.User", "User")
                         .WithMany("Articles")
                         .HasForeignKey("CreatorId");
+                });
+
+            modelBuilder.Entity("SportBox7.Data.Models.ArticleSeoData", b =>
+                {
+                    b.HasOne("SportBox7.Data.Models.Article", "Article")
+                        .WithOne("ArticleSeoData")
+                        .HasForeignKey("SportBox7.Data.Models.ArticleSeoData", "ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SportBox7.Data.Models.Comment", b =>
+                {
+                    b.HasOne("SportBox7.Data.Models.Article", "Article")
+                        .WithMany("Comments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

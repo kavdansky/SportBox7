@@ -14,7 +14,8 @@
         "outputPath": "C:\\Users\\Liubo PC\\SportBox7\\SportBox7\\SportBox7\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
           "C:\\Users\\Liubo PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
