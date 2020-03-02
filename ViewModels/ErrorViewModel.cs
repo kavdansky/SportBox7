@@ -1,6 +1,6 @@
 using System;
 
-namespace SportBox7.Models
+namespace SportBox7.ViewModels
 {
     public class ErrorViewModel
     {

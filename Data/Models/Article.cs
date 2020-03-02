@@ -11,6 +11,8 @@ namespace SportBox7.Data.Models
     {
         public int Id { get; set; }
 
+        public int? TempArticleId { get; set; }
+
         public string CreatorId { get; set; }
 
         public DateTime CreationDate { get; set; }
@@ -20,6 +22,8 @@ namespace SportBox7.Data.Models
         public string Title { get; set; }
 
         public string Body { get; set; }
+
+        public string H1Tag { get; set; }
 
         public string ImageUrl { get; set; }
 

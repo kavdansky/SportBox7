@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using SportBox7.Data.Seed;
+using SportBox7.Areas.Editors.Services.Interfaces;
 
 namespace SportBox7
 {
@@ -43,11 +45,22 @@ namespace SportBox7
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddRazorPages();
+
+            services.AddTransient<IEditorService, EditorService>();
+           
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            //app.Use(async (context, next) =>
+            //await context.Response.WriteAsync("Hello from middleware :)")
+            //);
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,10 +84,22 @@ namespace SportBox7
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "Editors",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
                 endpoints.MapRazorPages();
             });
+
+            
+
+            DBInitializer.Seed(app);
+
+
 
 
         }

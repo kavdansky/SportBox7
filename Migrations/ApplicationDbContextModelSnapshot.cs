@@ -247,6 +247,9 @@ namespace SportBox7.Migrations
                     b.Property<bool>("EnableComments")
                         .HasColumnType("bit");
 
+                    b.Property<string>("H1Tag")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -260,6 +263,9 @@ namespace SportBox7.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TempArticleId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

@@ -19,6 +19,8 @@ namespace SportBox7.Areas.Identity
                 builder.ConfigureServices((context, services) => {
                 });
             }
+
+            
             
         }
     }
