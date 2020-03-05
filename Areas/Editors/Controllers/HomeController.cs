@@ -8,6 +8,12 @@ using SportBox7.Areas.Editors.Services.Interfaces;
 using SportBox7.Areas.Editors.ViewModels;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using SportBox7.Extensions;
+using SportBox7.Data.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SportBox7.Data.Models;
+using SportBox7.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace SportBox7.Areas.Editors.Controllers
 {
@@ -15,11 +21,14 @@ namespace SportBox7.Areas.Editors.Controllers
     {
         private readonly IEditorService editorService;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ApplicationDbContext dbContext;
+        
 
-        public HomeController(IEditorService editorService, IHttpContextAccessor httpContextAccessor)
+        public HomeController(IEditorService editorService, IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
             this.editorService = editorService;
             this.httpContextAccessor = httpContextAccessor;
+            this.dbContext = dbContext;
                 
         }
 
@@ -35,6 +44,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [Area("Editors")]
         public IActionResult AddArticleForReview()
         {
+            ViewBag.ArticleCategories = GetArticleCategories();
             return View(new AddArticleForReviewViewModel());
         }
 
@@ -44,10 +54,12 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpPost]
         public IActionResult AddArticleForReview(AddArticleForReviewViewModel model)
         {
+            var formdata = this.Request.Form;
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (model !=null)
+            if (ModelState.IsValid && model != null)
             {
                 model.CreatorId = userId;
+
                 editorService.AddArticleForReview(model);
             }
             
@@ -55,6 +67,26 @@ namespace SportBox7.Areas.Editors.Controllers
             return View();
         }
 
+        private List<SelectListItem> GetArticleCategories()
+        {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userRoleId = dbContext.UserRoles.Where(x=> x.UserId == userId).FirstOrDefault().RoleId;
 
+            List<SelectListItem> categories = new List<SelectListItem>();
+
+
+
+            var userPermitedCategories = this.dbContext.RolesCategories.Where(x=> x.RoleId == userRoleId).ToList();
+
+
+            foreach (var category in userPermitedCategories)
+            {
+                Category currentCategory = dbContext.Categories.Find(category.CategoryId);
+                SelectListItem selListItem = new SelectListItem(currentCategory.CategoryName, currentCategory.Id+ "");
+                categories.Add(selListItem);
+            }
+
+            return categories;
+        }
     }
 }

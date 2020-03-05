@@ -23,6 +23,7 @@ namespace SportBox7.Data.Seed
                     context.Roles.Add(new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "Admin", NormalizedName = "ADMIN", });
                     context.Roles.Add(new IdentityRole { Id = Guid.NewGuid().ToString(), Name = "ChiefEditor", NormalizedName = "CHIEFEDITOR", });
                 }
+               
 
                 context.SaveChanges();
                 

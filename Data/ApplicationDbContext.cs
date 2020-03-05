@@ -23,8 +23,9 @@ namespace SportBox7.Data
 
         public DbSet<League> Leagues { get; set; }
 
+        public DbSet<RoleCategory> RolesCategories { get; set; }
 
-
+        public DbSet<Category> Categories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -47,10 +48,31 @@ namespace SportBox7.Data
                     .HasMany(x => x.Comments)
                     .WithOne(x => x.Article)
                     .HasForeignKey(x => x.ArticleId);
+
+
+                builder.Entity<RoleCategory>()
+                .HasKey(rc => new { rc.CategoryId, rc.RoleId });
+
+                builder.Entity<RoleCategory>()
+                    .HasOne(rc => rc.Category)
+                    .WithMany(a => a.RoleCategories)
+                    .HasForeignKey(rc=> rc.CategoryId);
+
+                builder.Entity<RoleCategory>()
+                    .HasOne(rc => rc.Role)
+                    .WithMany(a => a.RolesCategories)
+                    .HasForeignKey(r=> r.RoleId);
+
+                
+
             }
 
             
-        
+
+           
+
+
+
         }
     }
 }

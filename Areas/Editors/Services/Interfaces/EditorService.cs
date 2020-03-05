@@ -28,7 +28,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             article.CreationDate = DateTime.UtcNow;
             article.EnableComments = model.EnableComments;
             article.H1Tag = model.H1Tag;
-            article.Category = model.Category;
+            article.CategoryId = int.Parse(model.Category.Value);
             article.ImageUrl = model.ImageUrl;
             article.LastModDate = DateTime.UtcNow;
             article.TempArticleId = model.TempArticleId;

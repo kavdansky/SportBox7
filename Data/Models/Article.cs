@@ -33,7 +33,9 @@ namespace SportBox7.Data.Models
 
         public string SourceName { get; set; }
 
-        public ArticleCategory Category { get; set; }
+        public int CategoryId { get; set; }
+
+        public Category Category { get; set; }
 
         public ArticleState State { get; set; }
 
