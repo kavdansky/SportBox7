@@ -59,7 +59,7 @@ namespace SportBox7.Controllers
                 //    }
                 //    
                 //}
-                await context.SaveChangesAsync().ConfigureAwait(true);
+                //await context.SaveChangesAsync().ConfigureAwait(true);
 
 
 

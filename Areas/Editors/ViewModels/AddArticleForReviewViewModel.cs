@@ -24,15 +24,17 @@ namespace SportBox7.Areas.Editors.ViewModels
         [Required]
         public string H1Tag { get; set; }
 
+        [Url]
         public string ImageUrl { get; set; }
 
         public bool EnableComments { get; set; }
 
+        [Url]
         public string SourceURL { get; set; }
 
         public string SourceName { get; set; }
 
-        public SelectListItem Category { get; set; }
+        public int CategoryId { get; set; }
 
         [Required]
         public string MetaTitle { get; set; }
@@ -44,6 +46,7 @@ namespace SportBox7.Areas.Editors.ViewModels
         public string MetaKeyword { get; set; }
 
         [Required]
+        [Url]
         public string SeoUrl { get; set; }
 
     }

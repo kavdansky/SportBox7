@@ -1,10 +1,13 @@
-﻿using SportBox7.Areas.Editors.ViewModels;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SportBox7.Areas.Editors.ViewModels;
 using SportBox7.Data;
 using SportBox7.Data.Enums;
 using SportBox7.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SportBox7.Areas.Editors.Services.Interfaces
@@ -12,8 +15,11 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
     public class EditorService : IEditorService
     {
         private readonly ApplicationDbContext dbContext;
+        
+
         public EditorService(ApplicationDbContext dbContext)
         {
+            
             this.dbContext = dbContext;
         }
 
@@ -28,7 +34,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             article.CreationDate = DateTime.UtcNow;
             article.EnableComments = model.EnableComments;
             article.H1Tag = model.H1Tag;
-            article.CategoryId = int.Parse(model.Category.Value);
+            article.CategoryId = model.CategoryId;
             article.ImageUrl = model.ImageUrl;
             article.LastModDate = DateTime.UtcNow;
             article.TempArticleId = model.TempArticleId;
@@ -51,6 +57,28 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             dbContext.ArticlesSeoData.Add(seoData);
             dbContext.SaveChanges();
 
+        }
+
+        public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor)
+        {
+            var userId = httpContextAccessor?.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userRoleId = dbContext.UserRoles.Where(x => x.UserId == userId).FirstOrDefault().RoleId;
+
+            List<SelectListItem> categories = new List<SelectListItem>();
+
+
+
+            var userPermitedCategories = this.dbContext.RolesCategories.Where(x => x.RoleId == userRoleId).ToList();
+
+
+            foreach (var category in userPermitedCategories)
+            {
+                Category currentCategory = dbContext.Categories.Find(category.CategoryId);
+                SelectListItem selListItem = new SelectListItem(currentCategory.CategoryName, currentCategory.Id + "");
+                categories.Add(selListItem);
+            }
+
+            return categories;
         }
     }
 }

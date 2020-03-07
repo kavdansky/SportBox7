@@ -44,7 +44,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [Area("Editors")]
         public IActionResult AddArticleForReview()
         {
-            ViewBag.ArticleCategories = GetArticleCategories();
+            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
             return View(new AddArticleForReviewViewModel());
         }
 
@@ -54,20 +54,23 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpPost]
         public IActionResult AddArticleForReview(AddArticleForReviewViewModel model)
         {
-            var formdata = this.Request.Form;
+            
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (ModelState.IsValid && model != null)
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model != null)
             {
                 model.CreatorId = userId;
-
-                editorService.AddArticleForReview(model);
             }
             
-            
-            return View();
+            editorService.AddArticleForReview(model);
+
+            return Redirect("/");
         }
 
-        private List<SelectListItem> GetArticleCategories()
+        private List<SelectListItem> GetUserCategories()
         {
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userRoleId = dbContext.UserRoles.Where(x=> x.UserId == userId).FirstOrDefault().RoleId;

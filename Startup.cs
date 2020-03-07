@@ -33,7 +33,9 @@ namespace SportBox7
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options =>            
+            options.SignIn.RequireConfirmedAccount = false)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.Configure<CookiePolicyOptions>(options =>
@@ -45,7 +47,6 @@ namespace SportBox7
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddRazorPages();
-
             services.AddTransient<IEditorService, EditorService>();
            
 
@@ -53,7 +54,7 @@ namespace SportBox7
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
 
             //app.Use(async (context, next) =>
@@ -75,9 +76,7 @@ namespace SportBox7
             app.UseCookiePolicy();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -95,12 +94,7 @@ namespace SportBox7
                 endpoints.MapRazorPages();
             });
 
-            
-
-            DBInitializer.Seed(app);
-
-
-
+            DBInitializer.Seed(userManager, roleManager);
 
         }
     }

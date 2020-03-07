@@ -1,4 +1,6 @@
-﻿using SportBox7.Areas.Editors.ViewModels;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SportBox7.Areas.Editors.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
     public interface IEditorService
     {
         void AddArticleForReview(AddArticleForReviewViewModel model);
+
+        public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor);
     }
 }
