@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SportBox7.Areas.Editors.ViewModels;
 using SportBox7.Data;
@@ -6,36 +7,56 @@ using SportBox7.Data.Enums;
 using SportBox7.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using SportBox7.Extensions;
+using SkiaSharp;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Threading.Tasks;
+
 
 namespace SportBox7.Areas.Editors.Services.Interfaces
 {
     public class EditorService : IEditorService
     {
         private readonly ApplicationDbContext dbContext;
-        
+        private readonly IWebHostEnvironment hostingEnvironment;
 
-        public EditorService(ApplicationDbContext dbContext)
+
+        public EditorService(ApplicationDbContext dbContext, IWebHostEnvironment hostingEnvironment)
         {
-            
             this.dbContext = dbContext;
+            this.hostingEnvironment = hostingEnvironment;
         }
 
 
         public void AddArticleForReview(AddArticleForReviewViewModel model)
         {
+            
 
-          
             Article article = new Article();
+            string webRootPath = hostingEnvironment.WebRootPath;
+            string imageUrl = @$"{webRootPath}\Images\{model.ImageName}.jpg";
+
+            using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+            {
+                model.ArticleImage.CopyTo(fileStream);
+            }
+            
+            byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
+            var resizzedImage = SkiaSharpImageManipulationProvider.Resize(myBinaryImage, 310, 195);
+            File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
+
+
+            article.ImageUrl = $@"\Images\{model.ImageName}.jpg";
             article.CreatorId = model.CreatorId;
             article.Body = model.Body;
             article.CreationDate = DateTime.UtcNow;
             article.EnableComments = model.EnableComments;
             article.H1Tag = model.H1Tag;
             article.CategoryId = model.CategoryId;
-            article.ImageUrl = model.ImageUrl;
             article.LastModDate = DateTime.UtcNow;
             article.TempArticleId = model.TempArticleId;
             article.Title = model.Title;
@@ -57,14 +78,17 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             dbContext.ArticlesSeoData.Add(seoData);
             dbContext.SaveChanges();
 
+
         }
 
         public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor)
         {
             var userId = httpContextAccessor?.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userRoleId = dbContext.UserRoles.Where(x => x.UserId == userId).FirstOrDefault().RoleId;
+            var userRole = dbContext.UserRoles.Where(x => x.UserId == userId).FirstOrDefault();
+            var userRoleId = userRole.RoleId;
 
-            List<SelectListItem> categories = new List<SelectListItem>();
+
+            List <SelectListItem> categories = new List<SelectListItem>();
 
 
 
@@ -80,5 +104,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
             return categories;
         }
+
+        
     }
 }

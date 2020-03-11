@@ -13,6 +13,7 @@ using SportBox7.Data.Enums;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SportBox7.Data.Models;
 using SportBox7.Data;
+using System.IO;
 using Microsoft.AspNetCore.Identity;
 
 namespace SportBox7.Areas.Editors.Controllers
@@ -34,7 +35,7 @@ namespace SportBox7.Areas.Editors.Controllers
 
         [Authorize]
         [Area("Editors")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
@@ -42,7 +43,7 @@ namespace SportBox7.Areas.Editors.Controllers
 
         [Authorize]
         [Area("Editors")]
-        public IActionResult AddArticleForReview()
+        public async Task<IActionResult> AddArticleForReview()
         {
             ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
             return View(new AddArticleForReviewViewModel());
@@ -52,7 +53,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [Authorize]
         [Area("Editors")]
         [HttpPost]
-        public IActionResult AddArticleForReview(AddArticleForReviewViewModel model)
+        public async Task<IActionResult> AddArticleForReview(AddArticleForReviewViewModel model)
         {
             
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -63,11 +64,13 @@ namespace SportBox7.Areas.Editors.Controllers
             if (model != null)
             {
                 model.CreatorId = userId;
+                editorService.AddArticleForReview(model);
+                
             }
             
-            editorService.AddArticleForReview(model);
 
-            return Redirect("/");
+
+                return Redirect("/");
         }
 
         private List<SelectListItem> GetUserCategories()

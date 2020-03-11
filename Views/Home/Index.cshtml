@@ -1,12 +1,19 @@
-﻿
+﻿@using SportBox7.Data.Models
+
+@model List<Article>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-   
+    <div class="text-center">
 
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+        @foreach (var article in Model)
+        {
+            <h2>@article.Title</h2>
+            <p>@article.Body</p>
+            <img src="@article.ImageUrl" />
+        }
+
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>

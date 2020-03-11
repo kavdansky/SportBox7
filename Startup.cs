@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using SportBox7.Data.Seed;
 using SportBox7.Areas.Editors.Services.Interfaces;
+using SportBox7.Services.Interfaces;
+using SportBox7.Services;
 
 namespace SportBox7
 {
@@ -47,8 +49,9 @@ namespace SportBox7
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddRazorPages();
-            services.AddTransient<IEditorService, EditorService>();
-           
+            services.AddTransient<IEditorService, EditorService>(); 
+            services.AddTransient<IArticleService, ArticleService>();
+
 
 
         }
@@ -94,7 +97,7 @@ namespace SportBox7
                 endpoints.MapRazorPages();
             });
 
-            DBInitializer.Seed(userManager, roleManager);
+            DBInitializer.Seed(userManager, roleManager, app);
 
         }
     }
