@@ -207,3 +207,5 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\libSkiaSharp.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Admins\Index.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ChiefEditors\Index.cshtml.g.cs

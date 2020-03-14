@@ -73,26 +73,6 @@ namespace SportBox7.Areas.Editors.Controllers
                 return Redirect("/");
         }
 
-        private List<SelectListItem> GetUserCategories()
-        {
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var userRoleId = dbContext.UserRoles.Where(x=> x.UserId == userId).FirstOrDefault().RoleId;
-
-            List<SelectListItem> categories = new List<SelectListItem>();
-
-
-
-            var userPermitedCategories = this.dbContext.RolesCategories.Where(x=> x.RoleId == userRoleId).ToList();
-
-
-            foreach (var category in userPermitedCategories)
-            {
-                Category currentCategory = dbContext.Categories.Find(category.CategoryId);
-                SelectListItem selListItem = new SelectListItem(currentCategory.CategoryName, currentCategory.Id+ "");
-                categories.Add(selListItem);
-            }
-
-            return categories;
-        }
+        
     }
 }

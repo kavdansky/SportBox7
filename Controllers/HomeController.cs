@@ -35,10 +35,7 @@ namespace SportBox7.Controllers
 
             using (WebClient client = new WebClient())
             {
-                if (this.User.Identity.IsAuthenticated)
-                {
-                    return RedirectToAction("Index", "Home", new { area = "Editors" });
-                }
+                
             }
             ///string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
             //json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/all_leagues.php").ConfigureAwait(true);

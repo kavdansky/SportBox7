@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using SportBox7.Data;
 
 namespace SportBox7.Areas.Identity.Pages.Account
 {
@@ -20,14 +23,20 @@ namespace SportBox7.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ApplicationDbContext dbContext;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IHttpContextAccessor httpContextAccessor,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            this.dbContext = dbContext;
         }
 
         [BindProperty]
@@ -79,16 +88,32 @@ namespace SportBox7.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false).ConfigureAwait(true);
+                var currentUser = dbContext.Users.Where(x => x.Email == Input.Email).FirstOrDefault();
+                
+
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    if (await _userManager.IsInRoleAsync(currentUser, "Admin").ConfigureAwait(true))
+                    {
+                        return Redirect("/Editors/Admins/Index");
+                        _logger.LogInformation($"Admin {currentUser.UserName} logged in.");
+                    }
+                    if (await _userManager.IsInRoleAsync(currentUser, "ChiefEditor").ConfigureAwait(true))
+                    {
+                        return Redirect("/Editors/ChiefEditors/Index");
+                        _logger.LogInformation($"Chief Editor {currentUser.UserName} logged in.");
+                    }
+                    if (await _userManager.IsInRoleAsync(currentUser, "Author").ConfigureAwait(true))
+                    {
+                        return Redirect("/Editors/Authors/Index");
+                        _logger.LogInformation($"Author {currentUser.UserName} logged in.");
+                    }
+                    
                     return LocalRedirect(returnUrl);
                 }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
+                
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
