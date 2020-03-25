@@ -9,6 +9,6 @@ namespace SportBox7.Data.Models
 {
     public class Role: IdentityRole
     {
-        public ICollection<RoleCategory> RolesCategories { get; }
+       
     }
 }

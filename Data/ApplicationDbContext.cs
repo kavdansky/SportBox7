@@ -23,7 +23,7 @@ namespace SportBox7.Data
 
         public DbSet<League> Leagues { get; set; }
 
-        public DbSet<RoleCategory> RolesCategories { get; set; }
+        public DbSet<UserCategory> UserCategories { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
@@ -50,18 +50,18 @@ namespace SportBox7.Data
                     .HasForeignKey(x => x.ArticleId);
 
 
-                builder.Entity<RoleCategory>()
-                .HasKey(rc => new { rc.CategoryId, rc.RoleId });
+                builder.Entity<UserCategory>()
+                .HasKey(rc => new { rc.CategoryId, rc.UserId });
 
-                builder.Entity<RoleCategory>()
-                    .HasOne(rc => rc.Category)
-                    .WithMany(a => a.RoleCategories)
+                builder.Entity<UserCategory>()
+                    .HasOne(uc => uc.Category)
+                    .WithMany(a => a.UserCategories)
                     .HasForeignKey(rc=> rc.CategoryId);
 
-                builder.Entity<RoleCategory>()
-                    .HasOne(rc => rc.Role)
-                    .WithMany(a => a.RolesCategories)
-                    .HasForeignKey(r=> r.RoleId);
+                builder.Entity<UserCategory>()
+                    .HasOne(rc => rc.User)
+                    .WithMany(a => a.UserCategories)
+                    .HasForeignKey(r=> r.UserId);
 
                 
 

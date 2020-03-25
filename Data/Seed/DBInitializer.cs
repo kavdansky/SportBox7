@@ -115,20 +115,20 @@ namespace SportBox7.Data.Seed
         {
             using var serviceScope = applicationBuilder?.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             ApplicationDbContext context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-            if (context.RolesCategories?.Count() < 1)
+            if (context.UserCategories?.Count() < 1)
             {
 
 
-                var AdminRole = context.Roles.Where(x => x.Name == "Admin").FirstOrDefault();
+                var AdminUser = context.Users.Where(x => x.Email == "kavdansky@mail.bg").FirstOrDefault();
                 var categories = context.Categories.ToList();
 
                 
                 for (int p = 0; p < categories.Count; p++)
                 {
-                    RoleCategory roleCat = new RoleCategory();
-                    roleCat.RoleId = AdminRole.Id;
-                    roleCat.CategoryId = categories[p].Id;
-                    context.RolesCategories.Add(roleCat);
+                    UserCategory userCat = new UserCategory();
+                    userCat.UserId = AdminUser.Id;
+                    userCat.CategoryId = categories[p].Id;
+                    context.UserCategories.Add(userCat);
                     
                 }
                     context.SaveChanges();

@@ -17,6 +17,8 @@ using SportBox7.Data.Seed;
 using SportBox7.Areas.Editors.Services.Interfaces;
 using SportBox7.Services.Interfaces;
 using SportBox7.Services;
+using AutoMapper;
+using SportBox7.Areas.Editors.Services;
 
 namespace SportBox7
 {
@@ -49,8 +51,11 @@ namespace SportBox7
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddRazorPages();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddTransient<IEditorService, EditorService>(); 
             services.AddTransient<IArticleService, ArticleService>();
+            services.AddTransient<IAuthorService, AuthorService>();
+
 
 
 

@@ -11,29 +11,42 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SportBox7.Areas.Editors.Services.Interfaces;
+using SportBox7.Data;
+using SportBox7.Data.Models;
 
 namespace SportBox7.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEditorService editorService;
+        private readonly ApplicationDbContext dbContext;
+        
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            RoleManager<IdentityRole> roleManager,
+            IEditorService editorService,
+            ApplicationDbContext dbContext
+            )
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            _roleManager = roleManager;
+            this._userManager.Options.SignIn.RequireConfirmedAccount = false;       
+            this.editorService = editorService;  
+            this.dbContext = dbContext;
+            
+            
         }
 
         [BindProperty]
@@ -41,10 +54,18 @@ namespace SportBox7.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public List<SelectListItem> Roles { get; set; }
+
+        public List<UserRegCategory> Categories { get; set; }
+
 
         public class InputModel
         {
+            public InputModel()
+            {
+                this.Categories = new Dictionary<int, bool>();
+            }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -60,46 +81,50 @@ namespace SportBox7.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public string Role { get; set; }
+
+            public Dictionary<int, bool> Categories { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            this.Categories = GetCategories();
+            this.Roles = GetRolesSelectedListItems();
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            var inputCats = Input.Categories;
             returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                user.EmailConfirmed = true;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+
+                    _userManager.AddToRoleAsync(user, Input.Role).Wait();
+                    foreach (var category in Input.Categories)
+                    {                      
+                        if (category.Value)
+                        {
+                            UserCategory userCat = new UserCategory();
+                            userCat.CategoryId = category.Key;
+                            userCat.UserId = user.Id;
+                            dbContext.UserCategories.Add(userCat);
+                        }                        
+                    }
+
+                    dbContext.SaveChanges();
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    return Redirect("/Editors/Admins/Index");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -109,6 +134,43 @@ namespace SportBox7.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private List<SelectListItem> GetRolesSelectedListItems()
+        {
+            List<SelectListItem> selectListOfRoles = new List<SelectListItem>();
+            var roles = _roleManager.Roles;
+
+            foreach (var role in roles)
+            {
+                selectListOfRoles.Add(new SelectListItem(role.Name, role.Name));
+            }
+
+            return selectListOfRoles;
+        }
+
+        private List<UserRegCategory> GetCategories() 
+        {
+            List<UserRegCategory> userCategories = new List<UserRegCategory>();
+            List<Category> categories = editorService.GetAllCategories();
+            foreach (var category in categories)
+            {
+                UserRegCategory currentCategory = new UserRegCategory();
+                currentCategory.CategoryName = category.CategoryName;
+                currentCategory.Id = category.Id;
+                currentCategory.Selected = false;
+                userCategories.Add(currentCategory);
+            }
+
+            return userCategories;
+        }
+        
+
+        public class UserRegCategory
+        {
+            public int Id { get; set; }
+            public string CategoryName { get; set; }
+            public bool Selected { get; set; }
         }
     }
 }

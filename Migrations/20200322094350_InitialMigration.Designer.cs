@@ -10,14 +10,14 @@ using SportBox7.Data;
 namespace SportBox7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200308115522_InitialMigration")]
+    [Migration("20200322094350_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1")
+                .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -28,10 +28,6 @@ namespace SportBox7.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -50,8 +46,6 @@ namespace SportBox7.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -381,26 +375,19 @@ namespace SportBox7.Migrations
                     b.ToTable("Leagues");
                 });
 
-            modelBuilder.Entity("SportBox7.Data.Models.RoleCategory", b =>
+            modelBuilder.Entity("SportBox7.Data.Models.UserCategory", b =>
                 {
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("CategoryId", "RoleId");
+                    b.HasKey("CategoryId", "UserId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("RolesCategories");
-                });
-
-            modelBuilder.Entity("SportBox7.Data.Models.Role", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.HasDiscriminator().HasValue("Role");
+                    b.ToTable("UserCategories");
                 });
 
             modelBuilder.Entity("SportBox7.Data.Models.User", b =>
@@ -492,17 +479,17 @@ namespace SportBox7.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SportBox7.Data.Models.RoleCategory", b =>
+            modelBuilder.Entity("SportBox7.Data.Models.UserCategory", b =>
                 {
                     b.HasOne("SportBox7.Data.Models.Category", "Category")
-                        .WithMany("RoleCategories")
+                        .WithMany("UserCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SportBox7.Data.Models.Role", "Role")
-                        .WithMany("RolesCategories")
-                        .HasForeignKey("RoleId")
+                    b.HasOne("SportBox7.Data.Models.User", "User")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

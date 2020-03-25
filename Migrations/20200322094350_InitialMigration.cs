@@ -14,8 +14,7 @@ namespace SportBox7.Migrations
                     Id = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Discriminator = table.Column<string>(nullable: false)
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,25 +220,25 @@ namespace SportBox7.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RolesCategories",
+                name: "UserCategories",
                 columns: table => new
                 {
-                    RoleId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolesCategories", x => new { x.CategoryId, x.RoleId });
+                    table.PrimaryKey("PK_UserCategories", x => new { x.CategoryId, x.UserId });
                     table.ForeignKey(
-                        name: "FK_RolesCategories_Categories_CategoryId",
+                        name: "FK_UserCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RolesCategories_AspNetRoles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "AspNetRoles",
+                        name: "FK_UserCategories_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -349,9 +348,9 @@ namespace SportBox7.Migrations
                 column: "ArticleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolesCategories_RoleId",
-                table: "RolesCategories",
-                column: "RoleId");
+                name: "IX_UserCategories_UserId",
+                table: "UserCategories",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -381,13 +380,13 @@ namespace SportBox7.Migrations
                 name: "Leagues");
 
             migrationBuilder.DropTable(
-                name: "RolesCategories");
-
-            migrationBuilder.DropTable(
-                name: "Articles");
+                name: "UserCategories");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Articles");
 
             migrationBuilder.DropTable(
                 name: "Categories");

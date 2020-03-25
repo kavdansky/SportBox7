@@ -13,6 +13,6 @@ namespace SportBox7.Data.Models
 
         public ICollection<Article> Articles { get; }
 
-        public ICollection<RoleCategory> RoleCategories { get;  }
+        public ICollection<UserCategory> UserCategories { get;  }
     }
 }
