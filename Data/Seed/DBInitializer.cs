@@ -13,7 +13,7 @@ namespace SportBox7.Data.Seed
     public static class DBInitializer
     {
 
-        public static void Seed(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IApplicationBuilder app)
+        public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IApplicationBuilder app)
         {
             SeedRoles(roleManager);
             Thread.Sleep(1000);
@@ -24,14 +24,15 @@ namespace SportBox7.Data.Seed
             SeedUserPermitedCategoties(app);
         }
 
-        public static void SeedUsers(UserManager<IdentityUser> userManager)
+        public static void SeedUsers(UserManager<User> userManager)
         {
             if (userManager?.FindByNameAsync("kavdansky@mail.bg").Result == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
                 user.UserName = "kavdansky@mail.bg";
                 user.Email = "kavdansky@mail.bg";
                 user.EmailConfirmed = true;
+                user.IsActive = true;
                 IdentityResult result = userManager.CreateAsync(user, "Kavdansky1!").Result;
                 
                 if (result.Succeeded)
@@ -43,10 +44,11 @@ namespace SportBox7.Data.Seed
 
             if (userManager?.FindByNameAsync("rusulski@mail.bg").Result == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
                 user.UserName = "rusulski@mail.bg";
                 user.Email = "rusulski@mail.bg";
                 user.EmailConfirmed = true;
+                user.IsActive = true;
                 IdentityResult result = userManager.CreateAsync
                 (user, "Rusulski1!").Result;
 
@@ -119,19 +121,28 @@ namespace SportBox7.Data.Seed
             {
 
 
-                var AdminUser = context.Users.Where(x => x.Email == "kavdansky@mail.bg").FirstOrDefault();
+                var adminUser = context.Users.Where(x => x.Email == "kavdansky@mail.bg").FirstOrDefault();
+                var chiefEditor = context.Users.Where(x => x.Email == "rusulski@mail.bg").FirstOrDefault();
                 var categories = context.Categories.ToList();
 
                 
                 for (int p = 0; p < categories.Count; p++)
                 {
                     UserCategory userCat = new UserCategory();
-                    userCat.UserId = AdminUser.Id;
+                    userCat.UserId = adminUser.Id;
                     userCat.CategoryId = categories[p].Id;
                     context.UserCategories.Add(userCat);
                     
                 }
-                    context.SaveChanges();
+                for (int p = 0; p < categories.Count; p++)
+                {
+                    UserCategory userCat = new UserCategory();
+                    userCat.UserId = chiefEditor.Id;
+                    userCat.CategoryId = categories[p].Id;
+                    context.UserCategories.Add(userCat);
+
+                }
+                context.SaveChanges();
 
                 
             }

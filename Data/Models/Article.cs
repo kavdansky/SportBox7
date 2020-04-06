@@ -45,6 +45,9 @@ namespace SportBox7.Data.Models
 
         public virtual User User { get; set; }
 
-       
+        public bool IsDeleted { get; set; }
+
+
+
     }
 }

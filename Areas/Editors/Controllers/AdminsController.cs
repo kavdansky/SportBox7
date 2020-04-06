@@ -16,5 +16,7 @@ namespace SportBox7.Areas.Editors.Controllers
         {
             return View();
         }
+
+        
     }
 }

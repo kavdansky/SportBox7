@@ -14,21 +14,22 @@ using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SportBox7.Data;
+using SportBox7.Data.Models;
 
 namespace SportBox7.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ApplicationDbContext dbContext;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<User> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             IHttpContextAccessor httpContextAccessor,
             ApplicationDbContext dbContext)
         {
@@ -95,17 +96,17 @@ namespace SportBox7.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    if (await _userManager.IsInRoleAsync(currentUser, "Admin").ConfigureAwait(true))
+                    if (await _userManager.IsInRoleAsync(currentUser, "Admin").ConfigureAwait(false))
                     {
                         return Redirect("/Editors/Admins/Index");
                         _logger.LogInformation($"Admin {currentUser.UserName} logged in.");
                     }
-                    if (await _userManager.IsInRoleAsync(currentUser, "ChiefEditor").ConfigureAwait(true))
+                    if (await _userManager.IsInRoleAsync(currentUser, "ChiefEditor").ConfigureAwait(false))
                     {
                         return Redirect("/Editors/ChiefEditors/Index");
                         _logger.LogInformation($"Chief Editor {currentUser.UserName} logged in.");
                     }
-                    if (await _userManager.IsInRoleAsync(currentUser, "Author").ConfigureAwait(true))
+                    if (await _userManager.IsInRoleAsync(currentUser, "Author").ConfigureAwait(false))
                     {
                         return Redirect("/Editors/Authors/Index");
                         _logger.LogInformation($"Author {currentUser.UserName} logged in.");

@@ -18,17 +18,20 @@ namespace SportBox7.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext context;
-        private readonly IArticleService articleServive;
+        private readonly IArticleService articleService;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IArticleService articleServive)
         {
             _logger = logger;
             this.context = context;
-            this.articleServive = articleServive;    
+            this.articleService = articleServive;
+            
+
         }
 
         public async Task<IActionResult> Index()
         {
+            
 
             string json = "";
 
@@ -59,7 +62,7 @@ namespace SportBox7.Controllers
             //}
             //await context.SaveChangesAsync().ConfigureAwait(true);
 
-            var model = articleServive.GetArticlesForHomePage();
+            var model = articleService.GetArticlesForHomePage();
             return View(model);
 
         }

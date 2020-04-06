@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SportBox7.Data.Models
 {
-    public class TempArticle
+    public class RawArticle
     {
         public int Id { get; set; }
 

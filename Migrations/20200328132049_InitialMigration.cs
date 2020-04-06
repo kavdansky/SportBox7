@@ -40,7 +40,7 @@ namespace SportBox7.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,7 +200,8 @@ namespace SportBox7.Migrations
                     SourceURL = table.Column<string>(nullable: true),
                     SourceName = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
-                    State = table.Column<int>(nullable: false)
+                    State = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

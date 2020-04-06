@@ -1,0 +1,57 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Users
+@model SportBox7.Areas.Editors.ViewModels.Users.EditUserViewModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserAdCode"></label>
+                <textarea asp-for="UserAdCode" class="form-control"></textarea>
+                <span asp-validation-for="UserAdCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Role" class="control-label"></label>
+                <select asp-for="Role" class="form-control" asp-items="@ViewBag.AllRoles">@Model.Role"</select>
+            </div>
+            <div class="form-group">
+                @{ List<UserRegCategory> allCats = ViewBag.AllCategories;}
+
+                @for (var i = 0; i < allCats.Count; i++)
+                {
+                    int userCategoryId = allCats[i].Id;
+
+                    <div class="form-group">
+
+
+                        @if (Model.UserCategories[allCats[i].Id])
+                        {
+                            <input type="checkbox" asp-for="UserCategories[userCategoryId]" checked />
+                            <label asp-for="UserCategories[userCategoryId]">@allCats.Where(x => x.Id == userCategoryId).FirstOrDefault().CategoryName</label>
+                        }
+                        else
+                        {
+                            <input type="checkbox" asp-for="UserCategories[userCategoryId]" />
+                            <label asp-for="UserCategories[userCategoryId]">@allCats.Where(x => x.Id == userCategoryId).FirstOrDefault().CategoryName</label>
+                        }
+                    </div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-primary">All Users</button>
+        </form>
+    </div>
+</div>
+

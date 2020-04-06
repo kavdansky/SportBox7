@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SportBox7.Areas.Editors.Services.Interfaces;
 using SportBox7.Areas.Editors.ViewModels;
+using SportBox7.Areas.Editors.ViewModels.Content;
 
 namespace SportBox7.Areas.Editors.Controllers
 {
@@ -35,17 +36,18 @@ namespace SportBox7.Areas.Editors.Controllers
 
         [Authorize]
         [Area("Editors")]
-        public async Task<IActionResult> AddArticleForReview()
+        [HttpGet]
+        public async Task<IActionResult> AddNewDraft()
         {
             ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
-            return View(new AddArticleForReviewViewModel());
+            return View(new AddArticleViewModel());
         }
 
 
         [Authorize]
         [Area("Editors")]
         [HttpPost]
-        public async Task<IActionResult> AddArticleForReview(AddArticleForReviewViewModel model)
+        public async Task<IActionResult> AddNewDraft(AddArticleViewModel model)
         {
 
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -56,14 +58,67 @@ namespace SportBox7.Areas.Editors.Controllers
             if (model != null)
             {
                 model.CreatorId = userId;
-                editorService.AddArticleForReview(model);
+                authorService.AddNewDraft(model);
 
             }
 
-
-
             return Redirect("/");
         }
+
+        [Authorize]
+        [Area("Editors")]
+        public async Task<IActionResult> AllDrafts()
+        {
+            //TODO Check User and draft
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(editorService.LoadAllDrafts(userId));
+        }
+
+        [Authorize]
+        [Area("Editors")]
+        [HttpGet]
+        public async Task<IActionResult> EditDraft(int id)
+        {
+            //TODO Add check for article if it is draft and user permission
+            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
+            return View(authorService.EditDraftGetModel(id));
+        }
+
+        [Authorize]
+        [Area("Editors")]
+        [HttpPost]
+        public async Task<IActionResult> EditDraft(EditArticleViewModel model)
+        {
+            //TODO Add check for article if it is draft and user permission
+            if (ModelState.IsValid)
+            {
+                authorService.EditDraft(model);
+            }
+
+            return RedirectToAction("AllDrafts");
+        }
+
+        [Authorize]
+        [Area("Editors")]
+        [HttpGet]
+        public async Task<IActionResult> SentForReview(int id)
+        {
+            //TODO Add check for article if it is draft and user permission
+            authorService.SentDraftForReview(id);
+            return RedirectToAction("AllDrafts");
+        }
+
+        public async Task<IActionResult> ArticlesForReview()
+        {
+            //TODO Check User and draft
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(authorService.LoadMyArticlesForReview(userId));
+        }
+
+
+
+
+
 
 
     }

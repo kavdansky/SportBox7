@@ -1,0 +1,41 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Users
+
+@model IEnumerable<AllUsersViewModel>
+@{ 
+
+    ViewData["Title"] = "AllUsers";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+<h1>All Users</h1>
+
+<a href="/Identity/Account/Register">Register new user</a>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Permited categories</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserName</td>
+            <td>@user.Role</td>
+            <td>@string.Join(", ", user.UserCategories)</td>
+            <td>
+                @if (user.IsActive)
+                {
+                    <a href="/Editors/Users/DeactivateUser/@user.Id">Deactivate</a> @:|<a href="/Editors/Users/EditUser/@user.Id">Edit</a>
+                }
+                else
+                { 
+                    <a href="/Editors/Users/ActivateUser/@user.Id">Activate</a>
+                }
+            </td>
+        </tr>
+    } 
+</table>
+
+<button class="btn btn-primary" onclick="window.location='/Editors/Admins/Index'">Admin Panel</button>

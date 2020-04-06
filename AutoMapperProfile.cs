@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SportBox7.Areas.Editors.ViewModels;
+using SportBox7.Areas.Editors.ViewModels.Content;
 using SportBox7.Data.Models;
 
 namespace SportBox7
@@ -12,8 +13,11 @@ namespace SportBox7
     {
         public AutoMapperProfile()
         {
-            CreateMap<AddArticleForReviewViewModel, Article>();
-            CreateMap<AddArticleForReviewViewModel, ArticleSeoData>();
+            CreateMap<AddArticleViewModel, Article>();
+            CreateMap<AddArticleViewModel, ArticleSeoData>();
+            CreateMap<Article, AllArticlesViewModel>();
+            CreateMap<Article, EditArticleViewModel>();
+           
         }
     }
 }

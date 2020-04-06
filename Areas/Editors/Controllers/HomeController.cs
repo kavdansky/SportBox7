@@ -39,40 +39,6 @@ namespace SportBox7.Areas.Editors.Controllers
         {
             return View();
         }
-
-
-        [Authorize]
-        [Area("Editors")]
-        public async Task<IActionResult> AddArticleForReview()
-        {
-            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
-            return View(new AddArticleForReviewViewModel());
-        }
-
-
-        [Authorize]
-        [Area("Editors")]
-        [HttpPost]
-        public async Task<IActionResult> AddArticleForReview(AddArticleForReviewViewModel model)
-        {
-            
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            if (model != null)
-            {
-                model.CreatorId = userId;
-                editorService.AddArticleForReview(model);
-                
-            }
-            
-
-
-                return Redirect("/");
-        }
-
         
     }
 }

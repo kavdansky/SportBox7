@@ -10,7 +10,13 @@ namespace SportBox7.Data.Models
     {
         public virtual ICollection<Article> Articles { get; }
 
+        public string UserAdCode { get; set; }
+
+        public bool IsActive { get; set; }
+
         public virtual ICollection<UserCategory> UserCategories { get; }
+
+        
 
     }
 }

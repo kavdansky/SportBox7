@@ -1,0 +1,19 @@
+﻿@model SportBox7.Areas.Editors.ViewModels.Users.DeactivateUserViewModel
+@{
+    ViewData["Title"] = "DeactivateUserSuccess";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+@if (!Model.IsActive)
+{
+    <h1>Deactivation @Model.UserName successful!</h1>
+}
+else
+{
+<h1>Activation @Model.UserName successful!</h1>
+
+}
+
+
+<a href="/Editors/Admins/Index">Go to Admin Panel</a>
+

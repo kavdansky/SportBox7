@@ -19,6 +19,7 @@ using SportBox7.Services.Interfaces;
 using SportBox7.Services;
 using AutoMapper;
 using SportBox7.Areas.Editors.Services;
+using SportBox7.Data.Models;
 
 namespace SportBox7
 {
@@ -37,7 +38,7 @@ namespace SportBox7
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options =>            
+            services.AddDefaultIdentity<User>(options =>            
             options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -55,6 +56,8 @@ namespace SportBox7
             services.AddTransient<IEditorService, EditorService>(); 
             services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<IAuthorService, AuthorService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IValidationService, ValidationService>();
 
 
 
@@ -62,7 +65,7 @@ namespace SportBox7
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
 
             //app.Use(async (context, next) =>

@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SportBox7.Areas.Editors.Services.Interfaces;
+using SportBox7.Areas.Editors.ViewModels.Users;
 using SportBox7.Data;
 using SportBox7.Data.Models;
 
@@ -24,7 +25,7 @@ namespace SportBox7.Areas.Identity.Pages.Account
     public class RegisterModel : PageModel
     {
         
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEditorService editorService;
@@ -32,7 +33,7 @@ namespace SportBox7.Areas.Identity.Pages.Account
         
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
             IEditorService editorService,
@@ -82,6 +83,9 @@ namespace SportBox7.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Display(Name = "User Ad Code")]
+            public string UserAdCode { get; set; }
+
             public string Role { get; set; }
 
             public Dictionary<int, bool> Categories { get; set; }
@@ -103,7 +107,7 @@ namespace SportBox7.Areas.Identity.Pages.Account
             
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new User { UserName = Input.Email, Email = Input.Email, IsActive = true, UserAdCode = Input.UserAdCode };
                 user.EmailConfirmed = true;
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -164,13 +168,6 @@ namespace SportBox7.Areas.Identity.Pages.Account
 
             return userCategories;
         }
-        
-
-        public class UserRegCategory
-        {
-            public int Id { get; set; }
-            public string CategoryName { get; set; }
-            public bool Selected { get; set; }
-        }
+       
     }
 }
