@@ -20,12 +20,17 @@ namespace SportBox7.Areas.Editors.Controllers
         private readonly IAuthorService authorService;
         private readonly IEditorService editorService;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IValidationService validationService;
 
-        public AuthorsController(IAuthorService authorService, IEditorService editorService, IHttpContextAccessor httpContextAccessor)
+        public AuthorsController(IAuthorService authorService,
+            IEditorService editorService,
+            IHttpContextAccessor httpContextAccessor,
+            IValidationService validationService)
         {
             this.authorService = authorService;
             this.editorService = editorService;
             this.httpContextAccessor = httpContextAccessor;
+            this.validationService = validationService;
         }
         
         public IActionResult Index()
@@ -34,7 +39,6 @@ namespace SportBox7.Areas.Editors.Controllers
             return View();
         }
 
-        [Authorize]
         [Area("Editors")]
         [HttpGet]
         public async Task<IActionResult> AddNewDraft()
@@ -43,30 +47,24 @@ namespace SportBox7.Areas.Editors.Controllers
             return View(new AddArticleViewModel());
         }
 
-
-        [Authorize]
         [Area("Editors")]
         [HttpPost]
         public async Task<IActionResult> AddNewDraft(AddArticleViewModel model)
         {
 
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            if (model != null)
+            if (ModelState.IsValid && userId != null)
             {
                 model.CreatorId = userId;
-                authorService.AddNewDraft(model);
-
+                editorService.AddNewDraft(model);
+                return RedirectToAction("AllDrafts");
             }
-
-            return Redirect("/");
+            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
+            return View(model);
         }
 
-        [Authorize]
         [Area("Editors")]
+        [HttpGet]
         public async Task<IActionResult> AllDrafts()
         {
             //TODO Check User and draft
@@ -74,52 +72,104 @@ namespace SportBox7.Areas.Editors.Controllers
             return View(editorService.LoadAllDrafts(userId));
         }
 
-        [Authorize]
         [Area("Editors")]
         [HttpGet]
         public async Task<IActionResult> EditDraft(int id)
         {
-            //TODO Add check for article if it is draft and user permission
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
-            return View(authorService.EditDraftGetModel(id));
+            if (validationService.CheckDraftUserPermissions(userId, id))
+            {
+                var model = editorService.EditDraftGetModel(id);
+                return View(model);
+            }
+            return RedirectToAction("NotPermitted");
+            
         }
 
-        [Authorize]
         [Area("Editors")]
         [HttpPost]
         public async Task<IActionResult> EditDraft(EditArticleViewModel model)
         {
-            //TODO Add check for article if it is draft and user permission
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
-                authorService.EditDraft(model);
+                if (validationService.CheckDraftUserPermissions(userId, model.Id))
+                {
+                    editorService.EditDraft(model);
+                }
+                return RedirectToAction("AllDrafts");
             }
+            return RedirectToAction("NotPermitted");
 
-            return RedirectToAction("AllDrafts");
         }
 
-        [Authorize]
         [Area("Editors")]
         [HttpGet]
-        public async Task<IActionResult> SentForReview(int id)
+        public async Task<IActionResult> SendForReview(int id)
         {
-            //TODO Add check for article if it is draft and user permission
-            authorService.SentDraftForReview(id);
-            return RedirectToAction("AllDrafts");
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (validationService.CheckDraftUserPermissions(userId, id))
+            {  
+                authorService.SentDraftForReview(id);
+                return RedirectToAction("ArticlesForReview");
+            }
+
+            return RedirectToAction("NotPermitted");
         }
 
+        [Area("Editors")]
+        [HttpGet]
         public async Task<IActionResult> ArticlesForReview()
         {
-            //TODO Check User and draft
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(authorService.LoadMyArticlesForReview(userId));
         }
 
+        [Area("Editors")]
+        [HttpGet]
+        public async Task<IActionResult> PublishedArticles()
+        {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return View(authorService.LoadMyPublishedArticles(userId));
+        }
 
+        [Area("Editors")]
+        [HttpGet]
+        public async Task<IActionResult> DeleteDraft(int id)
+        {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (validationService.CheckDraftUserPermissions(userId, id))
+            {
 
+                return View(editorService.GetDeleteDraftModel(id));          
+            }
+            return RedirectToAction("NotPermitted");
+        }
 
+        [Area("Editors")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteDraft(AllArticlesViewModel model)
+        {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (ModelState.IsValid)
+            {
+                if (validationService.CheckDraftUserPermissions(userId, model.Id))
+                {
+                    editorService.DeleteDraft(model.Id);
+                    return RedirectToAction("AllDrafts");
+                }
+            }
+           
+            return RedirectToAction("NotPermitted");
+        }
 
-
+        [Area("Editors")]
+        [HttpGet]
+        public async Task<IActionResult> NotPermitted()
+        {
+            return View();
+        }
 
     }
 }

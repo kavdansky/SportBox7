@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Content Management</h1>
+<hr />
+<button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/AllDrafts'">Drafts</button>
+<button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/ArticlesForReview'">Articles for approval</button>
+<button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/AllPublishedArticles'">Published</button>
+<br />
+<br />
+@{if (this.User.IsInRole("Admin"))
+    {
+        <button class="btn btn-primary" onclick="window.location='/Editors/Admins/Index'">Back to Admin Panel</button>
+        }
+        else
+    { 
+<button class="btn btn-primary" onclick="window.location='/Editors/ChiefEditors/Index'">Back to Chief Editor Panel</button>
+    }
+    }

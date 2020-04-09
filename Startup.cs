@@ -58,7 +58,7 @@ namespace SportBox7
             services.AddTransient<IAuthorService, AuthorService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidationService, ValidationService>();
-
+            services.AddTransient<IAdminService, AdminService>();
 
 
 

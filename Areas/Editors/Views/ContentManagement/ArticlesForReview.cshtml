@@ -1,0 +1,32 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Content
+@model ICollection<AllArticlesViewModel>
+@{
+    ViewData["Title"] = "ArticlesForReview";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Articles for review</h1>
+<hr />
+<br />
+<table class="table table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var article in Model)
+    {
+     <tr>
+         <td>@article.CreationDate.ToShortDateString()</td>
+         <td>@article.Title</td>
+         <td>@article.Category</td>
+         <td>
+             <a href="/Editors/ContentManagement/EditArticle/@article.Id">View and Edit</a> | <a href="/Editors/ContentManagement/DeleteArticle/@article.Id">Delete</a>
+             | <a href="/Editors/ContentManagement/PublishArticle/@article.Id">Publish</a>
+         </td>
+     </tr>
+    }
+</table>
+
+<button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Contenet Management Panel</button>

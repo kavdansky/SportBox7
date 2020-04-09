@@ -20,5 +20,19 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         public List<Category> GetAllCategories();
 
         ICollection<AllArticlesViewModel> LoadAllDrafts(string userId);
+
+        EditArticleViewModel EditDraftGetModel(int draftId);
+
+        void EditDraft(EditArticleViewModel model);
+
+        void DeleteDraft(int draftId);
+
+        AllArticlesViewModel GetDeleteDraftModel(int draftId);
+
+        ICollection<AllArticlesViewModel> LoadArticlesForReview();
+
+        ICollection<AllArticlesViewModel> LoadAllPublishedArticles();
+        
+
     }
 }

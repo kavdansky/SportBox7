@@ -18,6 +18,7 @@ using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using SportBox7.Areas.Identity.Pages.Account;
 using SportBox7.Areas.Editors.ViewModels.Content;
+using System.Threading;
 
 namespace SportBox7.Areas.Editors.Services.Interfaces
 {
@@ -43,18 +44,19 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             string imageUrl = @$"{webRootPath}\Images\{model?.ImageName}.jpg";
             Article article = mapper.Map<Article>(model);
 
-            using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+            
+            if (model.ArticleImage != null)
             {
-                if (model.ArticleImage != null)
+                using (var fileStream = new FileStream(imageUrl, FileMode.Create))
                 {
                     model.ArticleImage.CopyTo(fileStream);
-                    byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
-                    var resizzedImage = SkiaSharpImageManipulationProvider.Resize(myBinaryImage, 310, 195);
-                    File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
-                    article.ImageUrl = $@"\Images\{model.ImageName}.jpg";
-                }            
+                }
+                byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
+                var resizzedImage = SkiaSharpImageManipulationProvider.Resize(myBinaryImage, 310, 195);
+                File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
+                article.ImageUrl = $@"\Images\{model.ImageName}.jpg";
             }
-                      
+
             article.CreationDate = DateTime.UtcNow;
             article.LastModDate = DateTime.UtcNow;
             article.State = ArticleState.Draft;
@@ -68,11 +70,64 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
         }
 
+        public void DeleteDraft(int draftId)
+        {
+            Article draftToDelete = dbContext.Articles.Find(draftId);
+            draftToDelete.IsDeleted = true;
+            dbContext.SaveChanges();
+        }
+
+        public void EditDraft(EditArticleViewModel model)
+        {
+            Article draftToEdit = dbContext.Articles.Find(model.Id);
+            draftToEdit.Body = model.Body;
+            draftToEdit.CategoryId = model.CategoryId;
+            draftToEdit.EnableComments = model.EnableComments;
+            draftToEdit.H1Tag = model.H1Tag;
+            draftToEdit.LastModDate = DateTime.UtcNow;
+            draftToEdit.SourceName = model.SourceName;
+            draftToEdit.SourceURL = model.SourceURL;
+            draftToEdit.Title = model.Title;
+            dbContext.SaveChanges();
+
+            ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == draftToEdit.Id).FirstOrDefault();
+            articleSeoDataToEdit.MetaDescription = model.MetaDescription;
+            articleSeoDataToEdit.MetaKeyword = model.MetaKeyword;
+            articleSeoDataToEdit.MetaTitle = model.MetaTitle;
+            articleSeoDataToEdit.SeoUrl = model.SeoUrl;
+            dbContext.SaveChanges();
+        }
+
+        public EditArticleViewModel EditDraftGetModel(int draftId)
+        {
+            EditArticleViewModel model = new EditArticleViewModel();
+            Article articleToEdit = dbContext.Articles.Find(draftId);
+            ArticleSeoData articleToEditSeoData = dbContext.ArticlesSeoData.Where(a => a.ArticleId == articleToEdit.Id).FirstOrDefault();
+            model = mapper.Map<EditArticleViewModel>(articleToEdit);
+            model.CategoryId = articleToEdit.CategoryId;
+            model.MetaDescription = articleToEditSeoData.MetaDescription;
+            model.MetaKeyword = articleToEditSeoData.MetaKeyword;
+            model.MetaTitle = articleToEditSeoData.MetaTitle;
+            model.SeoUrl = articleToEditSeoData.SeoUrl;
+            return model;
+        }
+
 
 
         public List<Category> GetAllCategories()
         {
             return this.dbContext.Categories.ToList();
+        }
+
+        public AllArticlesViewModel GetDeleteDraftModel(int draftId)
+        {
+            Article draftToDelete = dbContext.Articles.Find(draftId);
+            string modelCategory = dbContext.Categories.Find(draftToDelete.CategoryId).CategoryName;
+            AllArticlesViewModel model = mapper.Map<AllArticlesViewModel>(draftToDelete);
+            model.Category = modelCategory;
+            
+            return model;
+
         }
 
         public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor)
@@ -99,7 +154,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         public ICollection<AllArticlesViewModel> LoadAllDrafts(string userId)
         {
             ICollection<AllArticlesViewModel> draftsToReturn = new List<AllArticlesViewModel>();
-            var userDrafts = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.Draft && d.IsDeleted == false).OrderBy(x=> x.CreationDate);
+            var userDrafts = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.Draft && d.IsDeleted == false).OrderByDescending(x=> x.CreationDate);
 
             foreach (var draft in userDrafts)
             {
@@ -112,5 +167,34 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
         }
 
+        public ICollection<AllArticlesViewModel> LoadAllPublishedArticles()
+        {
+            ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
+            var articles = dbContext.Articles.Where(d =>  d.State == ArticleState.Published && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
+
+            foreach (var article in articles)
+            {
+                AllArticlesViewModel tempDraftViewModel = mapper.Map<AllArticlesViewModel>(article);
+                tempDraftViewModel.Category = dbContext.Categories.Where(c => c.Id == article.CategoryId).FirstOrDefault().CategoryName;
+                articlesToReturn.Add(tempDraftViewModel);
+            }
+
+            return articlesToReturn;
+        }
+
+        public ICollection<AllArticlesViewModel> LoadArticlesForReview()
+        {
+            ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
+            var articles = dbContext.Articles.Where(d => d.State == ArticleState.ForApproval && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
+
+            foreach (var article in articles)
+            {
+                AllArticlesViewModel tempArticleToReturnViewModel = mapper.Map<AllArticlesViewModel>(article);
+                tempArticleToReturnViewModel.Category = dbContext.Categories.Where(c => c.Id == article.CategoryId).FirstOrDefault().CategoryName;
+                articlesToReturn.Add(tempArticleToReturnViewModel);
+            }
+
+            return articlesToReturn;
+        }
     }
 }

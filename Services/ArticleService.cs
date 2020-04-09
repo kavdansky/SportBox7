@@ -23,7 +23,7 @@ namespace SportBox7.Services
 
         public List<Article> GetArticlesForHomePage()
         {
-            return dbContext.Articles.Where(a=> a.IsDeleted == false && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).Take(7).ToList();
+            return dbContext.Articles.Where(a=> a.IsDeleted == false && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
                 
         }
     }
