@@ -20,6 +20,7 @@ using SportBox7.Services;
 using AutoMapper;
 using SportBox7.Areas.Editors.Services;
 using SportBox7.Data.Models;
+using SportBox7.Areas.Editors.Services.HostedServices;
 
 namespace SportBox7
 {
@@ -49,7 +50,8 @@ namespace SportBox7
                 // cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 // requires using Microsoft.AspNetCore.Http;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                
             });
             services.AddRazorPages();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -59,6 +61,8 @@ namespace SportBox7
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IValidationService, ValidationService>();
             services.AddTransient<IAdminService, AdminService>();
+            services.AddTransient<IExternalNewsService, ExternalNewsService>();
+            //services.AddHostedService<BgFootballUnionService>();
 
 
 

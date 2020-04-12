@@ -40,6 +40,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             articleToEdit.SourceName = model.SourceName;
             articleToEdit.SourceURL = model.SourceURL;
             articleToEdit.Title = model.Title;
+            articleToEdit.LastModDate = DateTime.UtcNow;
             dbContext.SaveChanges();
 
             ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == articleToEdit.Id).FirstOrDefault();

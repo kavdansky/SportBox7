@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SportBox7.Data.Models
+namespace SportBox7.Areas.Editors.ViewModels.Content
 {
-    public class RawArticle
+    public class RawArticleViewModel
     {
         public int Id { get; set; }
 
@@ -25,6 +25,6 @@ namespace SportBox7.Data.Models
 
         public int CategoryId { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public string Category { get; set; }
     }
 }

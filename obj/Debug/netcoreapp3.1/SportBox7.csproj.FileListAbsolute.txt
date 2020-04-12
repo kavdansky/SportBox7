@@ -11,7 +11,6 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Admins\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Authors\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ChiefEditors\Index.cshtml.g.cs
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Home\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Shared\Error.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Shared\_Layout.cshtml.g.cs
@@ -229,3 +228,6 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Ar
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ContentManagement\EditDraft.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ContentManagement\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ContentManagement\NotPermitted.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\NewsFeed.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\RawNewsDetails.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\Index.cshtml.g.cs

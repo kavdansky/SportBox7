@@ -88,6 +88,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             draftToEdit.SourceName = model.SourceName;
             draftToEdit.SourceURL = model.SourceURL;
             draftToEdit.Title = model.Title;
+            draftToEdit.LastModDate = DateTime.UtcNow;
             dbContext.SaveChanges();
 
             ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == draftToEdit.Id).FirstOrDefault();
@@ -105,10 +106,17 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             ArticleSeoData articleToEditSeoData = dbContext.ArticlesSeoData.Where(a => a.ArticleId == articleToEdit.Id).FirstOrDefault();
             model = mapper.Map<EditArticleViewModel>(articleToEdit);
             model.CategoryId = articleToEdit.CategoryId;
-            model.MetaDescription = articleToEditSeoData.MetaDescription;
-            model.MetaKeyword = articleToEditSeoData.MetaKeyword;
-            model.MetaTitle = articleToEditSeoData.MetaTitle;
-            model.SeoUrl = articleToEditSeoData.SeoUrl;
+            if (articleToEditSeoData != null)
+            {           
+                model.MetaDescription = articleToEditSeoData.MetaDescription;
+                model.MetaKeyword = articleToEditSeoData.MetaKeyword;
+                model.MetaTitle = articleToEditSeoData.MetaTitle;
+                model.SeoUrl = articleToEditSeoData.SeoUrl;
+            }
+            
+                
+            
+            
             return model;
         }
 

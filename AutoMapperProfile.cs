@@ -17,7 +17,10 @@ namespace SportBox7
             CreateMap<AddArticleViewModel, ArticleSeoData>();
             CreateMap<Article, AllArticlesViewModel>();
             CreateMap<Article, EditArticleViewModel>();
-           
+            CreateMap<RawArticle, RawArticleViewModel>();
+            CreateMap<RawArticleViewModel, RawArticle>();
+            CreateMap<RawArticle, Article>();
+         
         }
     }
 }
