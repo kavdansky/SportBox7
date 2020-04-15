@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SportBox7.Data;
-using SportBox7.Data.ExternalDataModels;
+using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels;
 using SportBox7.Services.Interfaces;
 using SportBox7.ViewModels;
 
@@ -33,16 +33,10 @@ namespace SportBox7.Controllers
         {
             
 
-            string json = "";
-
-
-            using (WebClient client = new WebClient())
-            {
-                
-            }
-            ///string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
-            //json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/all_leagues.php").ConfigureAwait(true);
-            //LeaguesContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<LeaguesContainer>(json);
+            
+            //
+            //
+            //
             //
             //var currentLeagues = context.Leagues;
 

@@ -1,0 +1,26 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels
+@model TeamsContainer
+@{
+    ViewData["Title"] = "LeagueTeams";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+<h1>LeagueTeams</h1>
+<hr />
+<table class="table table-bordered">
+    <tr>
+        <th>Team</th>
+        <th>Country</th>
+    </tr>
+    @if (true)
+    {
+
+    }
+    @foreach (var team in Model.teams)
+    {
+        <tr>
+            <td><a href="/Editors/ExternalNewsSources/TeamDetails/@team.idTeam">@team.strTeam</a></td>
+            <td>@team.strCountry</td>
+        </tr>
+    }
+</table>

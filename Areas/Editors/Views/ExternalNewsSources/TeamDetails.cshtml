@@ -1,0 +1,18 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels
+@model Team
+@{
+    ViewData["Title"] = "TeamsDetails";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/bg_BG/sdk.js#xfbml=1&version=v6.0"></script>
+<h1>@Model.strTeam</h1>
+<hr />
+<p>Website: <a href="http://@Model.strWebsite" target="_blank">@Model.strWebsite</a></p>
+<p></p>
+<p>@Model.strDescriptionEN</p>
+<p></p>
+<div class="fb-page" data-href="@Model.strFacebook" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="@Model.strFacebook" class="fb-xfbml-parse-ignore"><a href="@Model.strFacebook">@Model.strTeam</a></blockquote></div>
+<a class="twitter-timeline" data-width="360" data-height="500" href="https://@Model.strTwitter">Tweets by @Model.strTeam</a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+

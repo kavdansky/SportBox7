@@ -2,10 +2,12 @@
 using SportBox7.Areas.Editors.Services.Interfaces;
 using SportBox7.Areas.Editors.ViewModels.Content;
 using SportBox7.Data;
+using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels;
 using SportBox7.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace SportBox7.Areas.Editors.Services
@@ -20,6 +22,27 @@ namespace SportBox7.Areas.Editors.Services
             this.dbContext = dbContext;
             this.mapper = mapper;
         }
+
+        public async Task<LeaguesContainer> GetAllLagues()
+        {
+            string json = "";
+            using WebClient client = new WebClient();          
+            string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
+            json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/all_leagues.php").ConfigureAwait(true);
+            LeaguesContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<LeaguesContainer>(json);
+            return container;
+        }
+
+        public async Task<TeamsContainer> GetAllLagueTeams(int id)
+        {
+            string json = "";
+            using WebClient client = new WebClient();
+            string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
+            json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/lookup_all_teams.php?id={id}").ConfigureAwait(true);
+            TeamsContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<TeamsContainer>(json);
+            return container;
+        }
+
 
         public ICollection<RawArticleViewModel> GetExternalNews(int[] userPermittedCats)
         {
@@ -46,6 +69,21 @@ namespace SportBox7.Areas.Editors.Services
             return articleToReturn;
         }
 
+        public async Task<Team> GetTeamDetails(int id)
+        {
+            string json = "";
+            using WebClient client = new WebClient();
+            string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
+            json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/lookupteam.php?id={id}").ConfigureAwait(true);
+            TeamsContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<TeamsContainer>(json);
+            if (container.teams is null)
+            {
+                return null;
+            }
+            return container.teams[0];
+            
+        }
+
         public int MakeRawArticleDraft(int articleId, string userId)
         {
             RawArticle rawArticle = dbContext.RawArticles.Find(articleId);
@@ -64,5 +102,7 @@ namespace SportBox7.Areas.Editors.Services
             dbContext.SaveChanges();
             return newArticle.Id;
         }
+
+
     }
 }

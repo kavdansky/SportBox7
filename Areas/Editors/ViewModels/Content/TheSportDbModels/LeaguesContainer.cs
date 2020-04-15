@@ -1,9 +1,9 @@
-﻿using SportBox7.Data.ExternalDataModels;
+﻿using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SportBox7.Data.ExternalDataModels
+namespace SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels
 {
     public class LeaguesContainer
     {

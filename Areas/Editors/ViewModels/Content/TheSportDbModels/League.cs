@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SportBox7.Data.ExternalDataModels
+namespace SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels
 {
     public class League
     {

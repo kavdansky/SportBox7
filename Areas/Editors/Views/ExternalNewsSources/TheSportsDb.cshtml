@@ -1,0 +1,38 @@
+﻿@using SportBox7.Areas.Editors.ViewModels.Content.TheSportDbModels
+@model LeaguesContainer
+@{
+    ViewData["Title"] = "TheSportsDb";
+    Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
+}
+
+<h1>TheSportsDb</h1>
+<hr />
+<div class="col-md-4">
+    <form>
+        <label for="sport">Sport</label>
+        <select name="sport" class="form-control" asp-items="@ViewBag.Sports"></select>
+        <input type="submit" class="btn btn-toolbar" value="Филтрирай" />
+    </form>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <th>League</th>
+        <th>Sport</th>
+    </tr>
+    @foreach (var league in Model.Leagues)
+    {
+        <tr>
+            <td><a href="/Editors/ExternalNewsSources/LeagueTeams/@league.idLeague">@league.strLeague</a></td>
+            <td>@league.strSport</td>
+        </tr>
+    }
+</table>
+@{if (this.User.IsInRole("Admin") || this.User.IsInRole("ChiefEditor"))
+    {
+        <button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Back to Content Management</button>
+    }
+    else if (this.User.IsInRole("Author"))
+    {
+        <button class="btn btn-primary" onclick="window.location='/Editors/Authors/Index'">Back to Author Panel</button>
+    }
+}

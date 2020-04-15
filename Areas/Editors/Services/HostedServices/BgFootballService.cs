@@ -14,12 +14,12 @@ namespace SportBox7.Areas.Editors.Services.HostedServices
 {
   
 
-    public class BgFootballUnionService : HostedService
+    public class BgFootballService : HostedService
     {
         private const string BrowserHeader = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"; 
         private readonly IServiceScopeFactory scopeFactory;
 
-        public BgFootballUnionService(IServiceScopeFactory scopeFactory)
+        public BgFootballService(IServiceScopeFactory scopeFactory)
         {
             this.scopeFactory = scopeFactory;
         }
