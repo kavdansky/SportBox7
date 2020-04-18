@@ -29,6 +29,8 @@ namespace SportBox7.Areas.Editors.ViewModels.Content
 
         public int CategoryId { get; set; }
 
+        [Url]
+        public string ImageUrl { get; set; }
 
         [Required]
         public string MetaTitle { get; set; }

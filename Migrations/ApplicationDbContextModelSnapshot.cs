@@ -252,6 +252,12 @@ namespace SportBox7.Migrations
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CategoryNameEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryNameSportsDb")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");

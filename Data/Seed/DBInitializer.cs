@@ -90,23 +90,38 @@ namespace SportBox7.Data.Seed
             {
                 Category category1 = new Category();
                 category1.CategoryName = "Футбол БГ";
+                category1.CategoryNameEN = "FootballBG";
+                category1.CategoryNameSportsDb = "Soccer";
                 context.Add(category1);
 
                 Category category2 = new Category();
                 category2.CategoryName = "Футбол свят";
+                category2.CategoryNameEN = "FootballWorld";
+                category2.CategoryNameSportsDb = "Soccer";
                 context.Add(category2);
 
                 Category category3 = new Category();
                 category3.CategoryName = "Баскетбол";
+                category3.CategoryNameEN = "Baskeball";
+                category3.CategoryNameSportsDb = "Basketball";
                 context.Add(category3);
 
                 Category category4 = new Category();
-                category4.CategoryName = "Бойни";
+                category4.CategoryName = "Волейбол";
+                category4.CategoryNameEN = "Valleyball";
+                category4.CategoryNameSportsDb = "Volleyball";
                 context.Add(category4);
 
                 Category category5 = new Category();
-                category5.CategoryName = "Други спортове";
+                category5.CategoryName = "Бойни";
+                category5.CategoryNameEN = "MartialArts";
+                category5.CategoryNameSportsDb = "Fighting";
                 context.Add(category5);
+
+                Category category6 = new Category();
+                category6.CategoryName = "Други спортове";
+                category6.CategoryNameEN = "Others";
+                context.Add(category6);
 
                 context.SaveChanges();
             }
@@ -142,13 +157,16 @@ namespace SportBox7.Data.Seed
                     context.UserCategories.Add(userCat);
 
                 }
-                context.SaveChanges();
-
-                
+                context.SaveChanges();               
             }
-            
-
-
         }
+        public static void SeedArticles()
+        {
+            Article article = new Article()
+            {
+
+            };
+        }
+
     }
 }

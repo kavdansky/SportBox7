@@ -127,11 +127,9 @@ namespace SportBox7.Areas.Editors.Services.HostedServices
                     }
 
                     latestArticles.Add(new RawArticle() {Body = articleBody.TextContent.Trim(), H1Tag = articleTitle.TextContent.Trim(),  Date = new DateTime(currentYear, currentMonth, currentDay), SourceName = "Български футболен съюз", Title = articleTitle.TextContent.Trim(), SourceURL = link, CategoryId = 1, ImageUrl = imageUrl });
-                }
-                await Task.Delay(TimeSpan.FromHours(4)).ConfigureAwait(true);
+                }       
             }
             return latestArticles;
-        }
-
+        }      
     }
 }

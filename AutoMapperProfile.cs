@@ -6,6 +6,7 @@ using AutoMapper;
 using SportBox7.Areas.Editors.ViewModels;
 using SportBox7.Areas.Editors.ViewModels.Content;
 using SportBox7.Data.Models;
+using SportBox7.ViewModels.Articles;
 
 namespace SportBox7
 {
@@ -20,7 +21,8 @@ namespace SportBox7
             CreateMap<RawArticle, RawArticleViewModel>();
             CreateMap<RawArticleViewModel, RawArticle>();
             CreateMap<RawArticle, Article>();
-         
+            CreateMap<Article, ArticleViewModel>();
+
         }
     }
 }

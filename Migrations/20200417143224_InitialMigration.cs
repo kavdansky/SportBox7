@@ -40,6 +40,7 @@ namespace SportBox7.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
+                    UserAdCode = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -53,7 +54,9 @@ namespace SportBox7.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CategoryName = table.Column<string>(nullable: true)
+                    CategoryName = table.Column<string>(nullable: true),
+                    CategoryNameEN = table.Column<string>(nullable: true),
+                    CategoryNameSportsDb = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,6 +77,27 @@ namespace SportBox7.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leagues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RawArticles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    H1Tag = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    SourceURL = table.Column<string>(nullable: true),
+                    SourceName = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false),
+                    IsDeleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RawArticles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -379,6 +403,9 @@ namespace SportBox7.Migrations
 
             migrationBuilder.DropTable(
                 name: "Leagues");
+
+            migrationBuilder.DropTable(
+                name: "RawArticles");
 
             migrationBuilder.DropTable(
                 name: "UserCategories");

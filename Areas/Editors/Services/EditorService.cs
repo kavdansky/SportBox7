@@ -43,7 +43,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             string webRootPath = hostingEnvironment.WebRootPath;
             string imageUrl = @$"{webRootPath}\Images\{model?.ImageName}.jpg";
             Article article = mapper.Map<Article>(model);
-
+            
             
             if (model.ArticleImage != null)
             {
@@ -51,8 +51,9 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
                 {
                     model.ArticleImage.CopyTo(fileStream);
                 }
+                
                 byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
-                var resizzedImage = SkiaSharpImageManipulationProvider.Resize(myBinaryImage, 310, 195);
+                var resizzedImage = SkiaSharpImageManipulationProvider.ResizeStaticProportions(myBinaryImage, 460);
                 File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
                 article.ImageUrl = $@"\Images\{model.ImageName}.jpg";
             }
@@ -60,6 +61,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             article.CreationDate = DateTime.UtcNow;
             article.LastModDate = DateTime.UtcNow;
             article.State = ArticleState.Draft;
+            article.CategoryId = model.CategoryId;
             dbContext.Articles.Add(article);
             dbContext.SaveChanges();
 

@@ -11,6 +11,10 @@ namespace SportBox7.Data.Models
 
         public string CategoryName { get; set; }
 
+        public string CategoryNameEN { get; set; }
+
+        public string CategoryNameSportsDb { get; set; }
+
         public ICollection<Article> Articles { get; }
 
         public ICollection<UserCategory> UserCategories { get;  }

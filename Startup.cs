@@ -62,7 +62,7 @@ namespace SportBox7
             services.AddTransient<IValidationService, ValidationService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IExternalNewsService, ExternalNewsService>();
-            //services.AddHostedService<BgFootballService>();
+            services.AddHostedService<BgFootballService>();
 
 
 
@@ -105,6 +105,9 @@ namespace SportBox7
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller}/{action=Index}/{id?}/{category}/{name}");
 
                 endpoints.MapRazorPages();
             });

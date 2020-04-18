@@ -10,8 +10,8 @@ using SportBox7.Data;
 namespace SportBox7.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200404100535_Migration040420201305")]
-    partial class Migration040420201305
+    [Migration("20200417143224_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -254,6 +254,12 @@ namespace SportBox7.Migrations
                     b.Property<string>("CategoryName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CategoryNameEN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryNameSportsDb")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
@@ -317,6 +323,9 @@ namespace SportBox7.Migrations
                     b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
@@ -325,6 +334,9 @@ namespace SportBox7.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SourceName")
                         .HasColumnType("nvarchar(max)");

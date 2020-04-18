@@ -9,6 +9,11 @@ namespace SportBox7.Data.Models
 {
     public class Article
     {
+        public Article()
+        {
+            this.Comments = new List<Comment>();
+        }
+
         public int Id { get; set; }
 
         public int? TempArticleId { get; set; }

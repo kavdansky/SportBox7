@@ -1,12 +1,3 @@
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.csprojAssemblyReference.cache
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\staticwebassets\SportBox7.StaticWebAssets.Manifest.cache
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\staticwebassets\SportBox7.StaticWebAssets.xml
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.RazorAssemblyInfo.cache
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.RazorAssemblyInfo.cs
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.AssemblyInfoInputs.cache
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.AssemblyInfo.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
@@ -146,6 +137,15 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.csprojAssemblyReference.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\staticwebassets\SportBox7.StaticWebAssets.Manifest.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\staticwebassets\SportBox7.StaticWebAssets.xml
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.RazorAssemblyInfo.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.RazorAssemblyInfo.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.AssemblyInfoInputs.cache
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.AssemblyInfo.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.TagHelpers.input.cache
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.TagHelpers.output.cache
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.RazorCoreGenerate.cache
@@ -170,8 +170,10 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Ar
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ContentManagement\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ContentManagement\NotPermitted.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\Index.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\LeagueTeams.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\NewsFeed.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\RawNewsDetails.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\TeamDetails.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\TheSportsDb.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Shared\Error.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\Shared\_CookieConsentPartial.cshtml.g.cs
@@ -219,6 +221,7 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Ar
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\News\All.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -232,5 +235,3 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.csproj.CopyComplete
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.pdb
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\LeagueTeams.cshtml.g.cs
-C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Areas\Editors\Views\ExternalNewsSources\TeamDetails.cshtml.g.cs
