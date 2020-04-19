@@ -7,22 +7,20 @@ using System.Threading.Tasks;
 
 namespace SportBox7.ViewComponents
 {
-    public class SidebarViewComponent : ViewComponent
+    [ViewComponent(Name ="SideBar")]
+    public class SideBarViewComponent : ViewComponent
     {
         private readonly IArticleService articleService;
 
-        public SidebarViewComponent(IArticleService articleService)
+        public SideBarViewComponent(IArticleService articleService)
         {
             this.articleService = articleService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string name)
-
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-
-        
-
-            return View();
+            var model = await articleService.GetSiteBarViewModel().ConfigureAwait(true);         
+            return View(model);
         }
     }
 }

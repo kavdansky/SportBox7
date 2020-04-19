@@ -14,6 +14,6 @@ namespace SportBox7.Services.Interfaces
 
         ArticleViewModel GetSingleArticle(int id);
 
-        ICollection<SideBarViewModel> GetSiteBarViewModel();
+        Task<ICollection<SideBarViewModel>> GetSiteBarViewModel();
     }
 }

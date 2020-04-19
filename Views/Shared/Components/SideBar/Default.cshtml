@@ -1,0 +1,26 @@
+﻿@using SportBox7.ViewModels.ViewComponents
+@model ICollection<SideBarViewModel>
+
+
+    <div class="col-12 col-md-6 col-lg-4">
+        @{
+            foreach (var item in Model)
+            {
+                <div class="single-blog-post small-featured-post d-flex">
+                    <div class="post-thumb">
+                        <a href="#"><img src="@item.ImageUrl" alt=""></a>
+                    </div>
+                    <div class="post-data">
+                        <a href="#" class="post-catagory">@item.Category</a>
+                        <div class="post-meta">
+                            <a href="#" class="post-title">
+                                <h6>@item.Title</h6>
+                            </a>
+                            <p class="post-date"><span>@item.Date.ToShortDateString()</span></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+       

@@ -46,7 +46,7 @@ namespace SportBox7.Services
 
         }
 
-        public ICollection<SideBarViewModel> GetSiteBarViewModel()
+        public async Task<ICollection<SideBarViewModel>> GetSiteBarViewModel()
         {
             ICollection<SideBarViewModel> model = new List<SideBarViewModel>();
             List<Category> categories = dbContext.Categories.ToList();
@@ -54,10 +54,10 @@ namespace SportBox7.Services
 
             for (int i = 0; i < categories.Count; i++)
             {
-                Article currentArticle = dbContext.Articles.Where(x => x.CategoryId == categories[i].Id).ElementAt(2);
-                model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title });
+                Article currentArticle = dbContext.Articles.Where(x => x.CategoryId == categories[i].Id).ToList()[0];
+                model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl });
             }
-            return null;
+            return model;
         }
     }
 }
