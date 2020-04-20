@@ -12,6 +12,8 @@ namespace SportBox7.ViewModels.Articles
 
         public string Creator { get; set; }
 
+        public string CategoryEN { get; set; }
+
         public DateTime CreationDate { get; set; }
 
         public DateTime LastModDate { get; set; }

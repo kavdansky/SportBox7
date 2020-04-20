@@ -62,7 +62,9 @@ namespace SportBox7
             services.AddTransient<IValidationService, ValidationService>();
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IExternalNewsService, ExternalNewsService>();
-            services.AddHostedService<BgFootballService>();
+            services.AddTransient<ICategoryService, CategoryService>();
+            
+            //services.AddHostedService<BgFootballService>();
 
 
 

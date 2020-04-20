@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using SportBox7.Data;
 using SportBox7.Data.Enums;
 using SportBox7.Data.Models;
 using SportBox7.Services.Interfaces;
 using SportBox7.ViewModels.Articles;
+using SportBox7.ViewModels.PartialViews;
 using SportBox7.ViewModels.ViewComponents;
 using System;
 using System.Collections.Generic;
@@ -30,6 +32,12 @@ namespace SportBox7.Services
                 
         }
 
+        public IList<NewsWidgetViewModel> GetNewsWidget()
+        {
+            List<NewsWidgetViewModel> latestArticles = dbContext.Articles.Include(x=> x.Category).Include(x=> x.ArticleSeoData).OrderByDescending(x => x.CreationDate).Select(x=> new NewsWidgetViewModel {Title = x.Title, Href = $"/News/All/{x.Id}/{x.Category.CategoryNameEN}/{x.Title}" }).ToList();
+            return latestArticles;
+        }
+
         public ArticleViewModel GetSingleArticle(int id)
         {
 
@@ -42,6 +50,7 @@ namespace SportBox7.Services
             model.SeoUrl = articleSeoData.SeoUrl;
             model.Creator = dbContext.Users.Find(articleInDb.CreatorId).UserName;
             model.Category = dbContext.Categories.Find(articleInDb.CategoryId).CategoryName;
+            model.CategoryEN = dbContext.Categories.Find(articleInDb.CategoryId).CategoryNameEN;
             return model;
 
         }
@@ -54,8 +63,8 @@ namespace SportBox7.Services
 
             for (int i = 0; i < categories.Count; i++)
             {
-                Article currentArticle = dbContext.Articles.Where(x => x.CategoryId == categories[i].Id).ToList()[0];
-                model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl });
+                Article currentArticle = dbContext.Articles.Include(x=> x.Category).Where(x => x.CategoryId == categories[i].Id).OrderByDescending(x=> x.CreationDate).ToList()[1];
+                model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl, CategoryNameEn = currentArticle.Category.CategoryNameEN });
             }
             return model;
         }

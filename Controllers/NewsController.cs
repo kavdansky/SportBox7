@@ -26,6 +26,8 @@ namespace SportBox7.Controllers
 
         public IActionResult All(int id, string category, string name)
         {
+
+            ViewBag.NewsWidget = articleService.GetNewsWidget();
             ArticleViewModel article = articleService.GetSingleArticle(id);
             return View(article);
         }

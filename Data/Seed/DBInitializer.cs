@@ -24,6 +24,25 @@ namespace SportBox7.Data.Seed
             SeedUserPermitedCategoties(app);
             Thread.Sleep(1000);
             SeedArticles(app);
+            Thread.Sleep(1000);
+            SeedArticlesSeoData(app);
+        }
+
+        private static void SeedArticlesSeoData(IApplicationBuilder app)
+        {
+            using var serviceScope = app?.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            ApplicationDbContext context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+            var articles = context.Articles.ToArray();
+            if (context.ArticlesSeoData.ToArray().Length == 0)
+            {
+                foreach (var article in articles)
+                {
+                    ArticleSeoData articleSeoDataTenp = new ArticleSeoData { ArticleId = article.Id, MetaDescription = article.Title, MetaKeyword = article.Title, SeoUrl = article.SourceURL, MetaTitle = article.Title };
+                    context.ArticlesSeoData.Add(articleSeoDataTenp);
+                }
+                context.SaveChanges();
+            }
+            
         }
 
         public static void SeedUsers(UserManager<User> userManager)
@@ -389,8 +408,6 @@ namespace SportBox7.Data.Seed
                 context.Articles.Add(article11);
                 context.Articles.Add(article12);
                 context.SaveChanges();
-
-
 
             }
 

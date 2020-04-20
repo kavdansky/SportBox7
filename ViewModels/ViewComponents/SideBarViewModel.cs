@@ -13,6 +13,8 @@ namespace SportBox7.ViewModels.ViewComponents
 
         public string Title { get; set; }
 
+        public string CategoryNameEn { get; set; }
+
         public DateTime Date { get; set; }
 
         public string ImageUrl { get; set; }

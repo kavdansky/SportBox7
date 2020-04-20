@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    ViewData["Category"] = "Home";
 }
 
 @{
@@ -23,18 +24,7 @@
         <div class="row align-items-center">
             <div class="col-12 col-lg-8">
                 <!-- Breaking News Widget -->
-                <div class="breaking-news-area d-flex align-items-center">
-                    <div class="news-title">
-                        <p>Последни новини</p>
-                    </div>
-                    <div id="breakingNewsTicker" class="ticker">
-                        <ul>
-                            <li><a href="#">Lorem ipsum dolor sit amet, consectetur adipiscingscin.</a></li>
-                            <li><a href="#">Welcome to Colorlib Family.</a></li>
-                            <li><a href="#">Nam eu metus sitsit amet, consec!</a></li>
-                        </ul>
-                    </div>
-                </div>
+                <partial name="_NewsWidgetPartial" model="@ViewBag.NewsWidget" />
             </div>
         </div>
     </div>
@@ -117,9 +107,12 @@
                         </div>
                     </div>
                 </div>
-                @await Component.InvokeAsync("SideBar")
-                <vc:side-bar></vc:side-bar>
-            </div>
+             
+                <div class="col-12 col-md-6 col-lg-4">
+                    @await Component.InvokeAsync("SideBar")
+                    <vc:side-bar></vc:side-bar>
+                </div>
+            </div>       
         </div>
-    </div>
+</div>
     <!-- ##### Featured Post Area End ##### -->

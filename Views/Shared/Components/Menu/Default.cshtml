@@ -1,0 +1,56 @@
+﻿@using SportBox7.ViewModels.ViewComponents
+@model IList<MenuCategoryViewModel>
+
+    <nav class="classy-navbar justify-content-between" id="newspaperNav">
+
+        <!-- Logo -->
+        <div class="logo">
+            <a href="index.html"><img src="~/img/core-img/logoSmall.jpg" alt="sportBox7 logo"></a>
+        </div>
+
+        <!-- Navbar Toggler -->
+        <div class="classy-navbar-toggler">
+            <span class="navbarToggler"><span></span><span></span><span></span></span>
+        </div>
+
+        <!-- Menu -->
+        <div class="classy-menu">
+
+            <!-- close btn -->
+            <div class="classycloseIcon">
+                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+            </div>
+
+            <!-- Nav Start -->
+            <div class="classynav">
+                <ul>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            if (item.NameEn == "Home" && item.isCurrent)
+                            {
+                                <li><a href="/" style="font-weight:bold; color:#000000" class="active">@item.NameBg</a></li>
+                            }
+                            else if (item.NameEn == "Home" && item.isCurrent == false)
+                            {
+                                <li><a href="/" class="active">@item.NameBg</a></li>
+                            }
+                            else if (item.isCurrent && item.NameEn != "Home")
+                            {
+                                <li><a href="/Categories/Details/@item.NameEn" style="font-weight:bold;  color:#000000" class="active">@item.NameBg</a></li>
+                            }
+                            else if(!item.isCurrent && item.NameEn != "Home")
+                            {
+
+                                <li><a href="/Categories/Details/@item.NameEn">@item.NameBg</a></li>
+                            }
+
+                        }
+                    }
+                </ul>
+            </div>
+            <!-- Nav End -->
+        </div>
+    </nav>
+
+

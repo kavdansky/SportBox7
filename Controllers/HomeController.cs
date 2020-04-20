@@ -31,8 +31,8 @@ namespace SportBox7.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
 
+            ViewBag.NewsWidget = articleService.GetNewsWidget();
             
             //
             //

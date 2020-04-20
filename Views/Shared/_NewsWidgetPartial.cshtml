@@ -1,0 +1,17 @@
+﻿@using SportBox7.ViewModels.PartialViews
+@model  IList<NewsWidgetViewModel>
+    <div class="breaking-news-area d-flex align-items-center">
+        <div class="news-title">
+            <p>Последни новини</p>
+        </div>
+        <div id="breakingNewsTicker" class="ticker">
+            <ul>
+                @{
+                    foreach (var item in Model)
+                    {
+                        <li><a href="@item.Href">@item.Title</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>

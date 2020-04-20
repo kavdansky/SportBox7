@@ -23,10 +23,8 @@
                         <div class="top-header-content d-flex align-items-center justify-content-between">
                             <!-- Logo -->
                             <div class="logo">
-                                <a href="index.html"><img src="~/img/core-img/logoSmall.jpg" alt=""></a>
+                                <a href="/"><img src="~/img/core-img/logoSmall.jpg" alt=""></a>
                             </div>
-
-
                             <!-- Advertisement -->
                             <div class="login-search-area d-flex align-items-center">
                             </div>
@@ -41,50 +39,14 @@
             <div class="classy-nav-container breakpoint-off">
                 <div class="container">
                     <!-- Menu -->
-                    <nav class="classy-navbar justify-content-between" id="newspaperNav">
-
-                        <!-- Logo -->
-                        <div class="logo">
-                            <a href="index.html"><img src="~/img/core-img/logoSmall.jpg" alt="sportBox7 logo"></a>
-                        </div>
-
-                        <!-- Navbar Toggler -->
-                        <div class="classy-navbar-toggler">
-                            <span class="navbarToggler"><span></span><span></span><span></span></span>
-                        </div>
-
-                        <!-- Menu -->
-                        <div class="classy-menu">
-
-                            <!-- close btn -->
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <!-- Nav Start -->
-                            <div class="classynav">
-                                <ul>
-                                    <li class="active"><a href="index.html">Начало</a></li>
-                                    <li><a href="#">Футбол БГ</a></li>
-                                    <li><a href="#">Футбол свят</a></li>
-                                    <li><a href="#">Баскетбол</a></li>
-                                    <li><a href="#">Волейбол</a></li>
-                                    <li><a href="#">Бойни</a></li>
-                                    <li><a href="#">Други</a></li>
-                                </ul>
-                            </div>
-                            <!-- Nav End -->
-                        </div>
-                    </nav>
+                    @await Component.InvokeAsync("Menu", new { currentCat = ViewData["Category"]})
+                    <vc:menu curren-cat="@ViewData["Category"]"></vc:menu>
                 </div>
             </div>
         </div>
-    </header>
-
-    
+    </header>   
             @RenderBody()
-            <partial name="_CookieConsentPartial" />
-       
+            <partial name="_CookieConsentPartial" />     
     <footer>
     <div class="bottom-footer-area">
         <div class="container h-100">

@@ -236,3 +236,6 @@ C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.dll
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\SportBox7.pdb
 C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\SideBar\Default.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_NewsWidgetPartial.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Categories\Details.cshtml.g.cs
+C:\Users\Liubo PC\SportBox7\SportBox7\SportBox7\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Components\Menu\Default.cshtml.g.cs

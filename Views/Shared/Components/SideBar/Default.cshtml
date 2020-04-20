@@ -2,7 +2,7 @@
 @model ICollection<SideBarViewModel>
 
 
-    <div class="col-12 col-md-6 col-lg-4">
+    
         @{
             foreach (var item in Model)
             {
@@ -11,9 +11,9 @@
                         <a href="#"><img src="@item.ImageUrl" alt=""></a>
                     </div>
                     <div class="post-data">
-                        <a href="#" class="post-catagory">@item.Category</a>
+                        <a href="/Categories/Details/@item.CategoryNameEn" class="post-catagory">@item.Category</a>
                         <div class="post-meta">
-                            <a href="#" class="post-title">
+                            <a href="/news/all/@item.ArticleId/@item.CategoryNameEn/@item.Title" class="post-title">
                                 <h6>@item.Title</h6>
                             </a>
                             <p class="post-date"><span>@item.Date.ToShortDateString()</span></p>
@@ -22,5 +22,5 @@
                 </div>
             }
         }
-    </div>
+   
        
