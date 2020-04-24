@@ -12,6 +12,7 @@ namespace SportBox7.Data.Models
         public Article()
         {
             this.Comments = new List<Comment>();
+            this.SocialSignals = new List<SocialSignal>();
         }
 
         public int Id { get; set; }
@@ -44,13 +45,15 @@ namespace SportBox7.Data.Models
 
         public ArticleState State { get; set; }
 
+        public virtual User User { get; set; }
+
+        public bool IsDeleted { get; set; }
+
         public virtual ArticleSeoData ArticleSeoData { get; set; }
 
         public virtual ICollection<Comment> Comments { get; }
 
-        public virtual User User { get; set; }
-
-        public bool IsDeleted { get; set; }
+        public virtual ICollection<SocialSignal> SocialSignals { get; set; }
 
 
 

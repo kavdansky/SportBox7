@@ -8,6 +8,11 @@ namespace SportBox7.ViewModels.Articles
 {
     public class ArticleViewModel
     {
+        public ArticleViewModel()
+        {
+            this.Likes = new int[2];
+        }
+
         public int Id { get; set; }
 
         public string Creator { get; set; }
@@ -41,6 +46,8 @@ namespace SportBox7.ViewModels.Articles
         public string MetaKeyword { get; set; }
 
         public string SeoUrl { get; set; }
+
+        public int[] Likes { get; set; }
 
         //public virtual ICollection<Comment> Comments { get; }
 

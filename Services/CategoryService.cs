@@ -29,6 +29,7 @@ namespace SportBox7.Services
             foreach (var artId in articleIds)
             {
                 ArticleViewModel tempModelToAdd = articleService.GetSingleArticle(artId);
+                tempModelToAdd.Body = string.Join(" ", tempModelToAdd.Body.Split(' ').Take(45));
                 result.Articles.Add(tempModelToAdd);
             }
 
@@ -49,8 +50,7 @@ namespace SportBox7.Services
                  if (categories[i].NameEn == currentCat)
                  {
                      categories[i].isCurrent = true;
-                 }
-                 
+                 }               
              }
              return categories;
         }

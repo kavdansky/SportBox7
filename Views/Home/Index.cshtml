@@ -6,19 +6,7 @@
     ViewData["Category"] = "Home";
 }
 
-@{
-//   <div class="text-center">
 
-//       @foreach (var article in Model)
-//      {
-//          <h2>@article.Title</h2>
-//          <p>@article.Body</p>
-//          <img src="@article.ImageUrl" />
-//      }
-//
-//<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-//    </div>
-}
 <div class="hero-area">
     <div class="container">
         <div class="row align-items-center">
@@ -43,16 +31,16 @@
                                 <div class="post-data">
                                     @{if (Model.Count > 0)
                                         {
-                                            <a href="#" class="post-catagory"></a>
-                                            <a href="#" class="post-title">
+                                            <a href="/Categories/Details/@Model[0].Category.CategoryNameEN" class="post-catagory">@Model[0].Category.CategoryName</a>
+                                            <a href="/news/all/@Model[0].Id/@Model[0].Category.CategoryNameEN/@Model[0].Title" class="post-title">
                                                 <h6>@Model[0].Title</h6>
                                             </a>
                                             <div class="post-thumb">
-                                                <a href="#"><img src="@Model[0].ImageUrl" alt=""></a>
+                                                <a href="/news/all/@Model[0].Id/@Model[0].Category.CategoryNameEN/@Model[0].Title"><img src="@Model[0].ImageUrl" alt=""></a>
                                             </div>
                                             <div class="post-meta">
                                                 <p class="post-author">By <a href="#">Christinne Williams</a></p>
-                                                <p class="post-excerp">@Model[0].Body</p>
+                                                <p class="post-excerp">@Model[0].Body.Substring(0, 450)<a href="/news/all/@Model[0].Id">...вижте повече</a></p>
                                                 <!-- Post Like & Post Comment -->
                                                 <div class="d-flex align-items-center">
                                                     <a href="#" class="post-like"><img src="img/core-img/like.png" alt=""> <span>392</span></a>
@@ -68,13 +56,13 @@
                             <!-- Single Featured Post -->
                             <div class="single-blog-post featured-post-2">
                                 <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/17.jpg" alt=""></a>
+                                    <a href="/news/all/@Model[1].Id/@Model[1].Category.CategoryNameEN/@Model[1].Title"><img src="@Model[1].ImageUrl" alt=""></a>
                                 </div>
                                 <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
+                                    <a href="/Categories/Details/@Model[1].Category.CategoryNameEN" class="post-catagory">@Model[1].Category.CategoryName</a>
                                     <div class="post-meta">
-                                        <a href="#" class="post-title">
-                                            <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placerat. Sed varius leo ac...</h6>
+                                        <a href="/news/all/@Model[1].Id/@Model[1].Category.CategoryNameEN/@Model[1].Title" class="post-title">
+                                            <h6>@Model[1].Title</h6>
                                         </a>
                                         <!-- Post Like & Post Comment -->
                                         <div class="d-flex align-items-center">
@@ -88,13 +76,13 @@
                             <!-- Single Featured Post -->
                             <div class="single-blog-post featured-post-2">
                                 <div class="post-thumb">
-                                    <a href="#"><img src="img/bg-img/18.jpg" alt=""></a>
+                                    <a href="/news/all/@Model[2].Id/@Model[2].Category.CategoryNameEN/@Model[2].Title"><img src="@Model[2].ImageUrl" alt=""></a>
                                 </div>
                                 <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
+                                    <a href="/Categories/Details/@Model[2].Category.CategoryNameEN" class="post-catagory">@Model[2].Category.CategoryName</a>
                                     <div class="post-meta">
-                                        <a href="#" class="post-title">
-                                            <h6>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu metus sit amet odio sodales placerat. Sed varius leo ac...</h6>
+                                        <a href="/news/all/@Model[2].Id/@Model[2].Category.CategoryNameEN/@Model[2].Title" class="post-title">
+                                            <h6>@Model[2].Title</h6>
                                         </a>
                                         <!-- Post Like & Post Comment -->
                                         <div class="d-flex align-items-center">

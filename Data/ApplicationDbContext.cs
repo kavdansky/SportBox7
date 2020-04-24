@@ -21,7 +21,7 @@ namespace SportBox7.Data
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<League> Leagues { get; set; }
+        public DbSet<SocialSignal> SocialSignals { get; set; }
 
         public DbSet<UserCategory> UserCategories { get; set; }
 

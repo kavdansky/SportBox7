@@ -21,6 +21,7 @@ using AutoMapper;
 using SportBox7.Areas.Editors.Services;
 using SportBox7.Data.Models;
 using SportBox7.Areas.Editors.Services.HostedServices;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace SportBox7
 {
@@ -44,6 +45,7 @@ namespace SportBox7
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential 
@@ -63,6 +65,7 @@ namespace SportBox7
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IExternalNewsService, ExternalNewsService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ISocialService, SocialService>();
             
             //services.AddHostedService<BgFootballService>();
 

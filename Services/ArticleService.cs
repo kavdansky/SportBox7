@@ -28,7 +28,7 @@ namespace SportBox7.Services
 
         public List<Article> GetArticlesForHomePage()
         {
-            return dbContext.Articles.Where(a=> a.IsDeleted == false && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
+            return dbContext.Articles.Include(x=> x.Category).Where(a=> a.IsDeleted == false && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
                 
         }
 
@@ -41,9 +41,12 @@ namespace SportBox7.Services
         public ArticleViewModel GetSingleArticle(int id)
         {
 
-            Article articleInDb = dbContext.Articles.Find(id);
+            Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Where(x=> x.Id == id).FirstOrDefault();
             ArticleSeoData articleSeoData = dbContext.ArticlesSeoData.Where(x=> x.ArticleId == articleInDb.Id).FirstOrDefault(); 
             ArticleViewModel model = mapper.Map<ArticleViewModel>(articleInDb);
+            model.Id = articleInDb.Id;
+            model.Likes[0] = articleInDb.SocialSignals.Where(x => x.IsLiked && x.ArticleId == articleInDb.Id).Count();
+            model.Likes[1] = articleInDb.SocialSignals.Where(x => !x.IsLiked && x.ArticleId == articleInDb.Id).Count();
             model.MetaDescription = articleSeoData.MetaDescription;
             model.MetaKeyword = articleSeoData.MetaKeyword;
             model.MetaTitle = articleSeoData.MetaTitle;

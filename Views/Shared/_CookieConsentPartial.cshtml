@@ -14,11 +14,12 @@
 @if (showBanner)
 {
     <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        Use this space to summarize your privacy and cookie use policy. <a asp-page="/Privacy">Learn More</a>.
+        sportbox7.com използваме технологии като "бисквитки" за да подобрим услугата на нашия сайт. За да научите какви данни събираме и опциите за поверителност, вижте нашата <a href="/Home/Privacy">"Политика за поверителност"</a>
+        <br />
         <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
+            <span aria-hidden="true" style="float: right; padding-left: 5px;">Приемам</span>
         </button>
-    </div>
+    </div>    
     <script>
         (function () {
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
