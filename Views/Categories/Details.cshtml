@@ -1,8 +1,9 @@
-﻿@model SportBox7.ViewModels.Categories.CategoryViewModel
+﻿@using SportBox7.ViewModels.Articles
+@model SportBox7.DTO.PaginatedList<ArticleInCategoryViewModel>
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Category"] = Model.CategoryNameEN;
+    ViewData["Category"] = Model.FirstOrDefault().CategoryEN;
 }
 
 <div class="hero-area">
@@ -21,10 +22,10 @@
         <div class="row">
             <div class="col-12 col-lg-8">
                 <div class="blog-posts-area">
-                    @foreach (var article in Model.Articles)
+                    @foreach (var article in Model)
                     {
                         <!-- Single Featured Post -->
-                        <div class="single-blog-post featured-post mb-30">                           
+                        <div class="single-blog-post featured-post mb-30">
                             <div class="post-data">
                                 <a href="#" class="post-catagory">@article.Category</a>
                                 <a href="/news/all/@article.Id" class="post-title">
@@ -42,14 +43,30 @@
                         <hr />
                     }
                 </div>
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+                <a asp-action="Details"
+                   
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   class="btn btn-default @prevDisabled">
+                    Previous
+                </a>
+                <a asp-action="Details"
+                  
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   class="btn btn-default @nextDisabled">
+                    Next
+                </a>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="blog-sidebar-area">
 
                     <!-- Latest Posts Widget -->
                     <div class="latest-posts-widget mb-50">
-
-                        <!-- Single Featured Post -->
+                        <!-- Single Featured Post-->
                         @await Component.InvokeAsync("SideBar")
                         <vc:side-bar></vc:side-bar>
                     </div>
@@ -59,3 +76,4 @@
     </div>
 </div>
 <!-- ##### Blog Area End ##### -->
+

@@ -66,8 +66,13 @@ namespace SportBox7.Services
 
             for (int i = 0; i < categories.Count; i++)
             {
-                Article currentArticle = dbContext.Articles.Include(x=> x.Category).Where(x => x.CategoryId == categories[i].Id).OrderByDescending(x=> x.CreationDate).ToList()[1];
-                model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl, CategoryNameEn = currentArticle.Category.CategoryNameEN });
+                List<Article> currentCategoryArticles = dbContext.Articles.Include(x => x.Category).Where(x => x.CategoryId == categories[i].Id && !x.IsDeleted).OrderByDescending(x => x.CreationDate).ToList();
+                if (currentCategoryArticles.Count > 1)
+                {
+                    Article currentArticle = currentCategoryArticles[1];
+                    model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl, CategoryNameEn = currentArticle.Category.CategoryNameEN });
+                }
+               
             }
             return model;
         }

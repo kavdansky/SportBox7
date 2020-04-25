@@ -6,7 +6,10 @@
         @{
             foreach (var item in Model)
             {
-                <div class="single-blog-post small-featured-post d-flex">
+            <div class="single-blog-post small-featured-post d-flex">
+
+                @if (Model != null)
+                {
                     <div class="post-thumb">
                         <a href="#"><img src="@item.ImageUrl" alt=""></a>
                     </div>
@@ -19,7 +22,8 @@
                             <p class="post-date"><span>@item.Date.ToShortDateString()</span></p>
                         </div>
                     </div>
-                </div>
+                }
+            </div>
             }
         }
    

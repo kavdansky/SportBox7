@@ -112,6 +112,10 @@ namespace SportBox7
 
                 endpoints.MapControllerRoute(
                     name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}/{pageNumber?}");
+
+                endpoints.MapControllerRoute(
+                    name: "default",
                     pattern: "{controller}/{action=Index}/{id?}/{category}/{name}");
 
                 endpoints.MapRazorPages();

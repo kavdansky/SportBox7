@@ -1,4 +1,5 @@
-﻿using SportBox7.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SportBox7.Data;
 using SportBox7.Services.Interfaces;
 using SportBox7.ViewModels.Articles;
 using SportBox7.ViewModels.Categories;
@@ -21,20 +22,16 @@ namespace SportBox7.Services
             this.articleService = articleService;
         }
 
-        public CategoryViewModel GetCategoryArticles(string categoryNameEn)
+        public IQueryable<ArticleInCategoryViewModel> GetCategoryArticles(string categoryNameEn)
         {
 
-            var result = dbContext.Categories.Where(c => c.CategoryNameEN == categoryNameEn).Select(c => new CategoryViewModel() { CategoryName = c.CategoryName, CategoryNameEN = c.CategoryNameEN, CategoryId = c.Id }).FirstOrDefault();
-            int[] articleIds = dbContext.Articles.Where(x => x.CategoryId == result.CategoryId).OrderByDescending(x => x.CreationDate).Select(x => x.Id).ToArray();
-            foreach (var artId in articleIds)
-            {
-                ArticleViewModel tempModelToAdd = articleService.GetSingleArticle(artId);
-                tempModelToAdd.Body = string.Join(" ", tempModelToAdd.Body.Split(' ').Take(45));
-                result.Articles.Add(tempModelToAdd);
-            }
+            var category = dbContext.Categories.Where(c => c.CategoryNameEN == categoryNameEn).Select(c => new CategoryViewModel() { CategoryName = c.CategoryName, CategoryNameEN = c.CategoryNameEN, CategoryId = c.Id }).FirstOrDefault();
+           
+            IQueryable<ArticleInCategoryViewModel> articles = dbContext.Articles.Include(x=> x.User).Include(x=> x.ArticleSeoData).Where(x => x.CategoryId == category.CategoryId).OrderByDescending(x => x.CreationDate).Select(x => new ArticleInCategoryViewModel {Body = x.Body, Category = category.CategoryName, CategoryId = category.CategoryId, CategoryEN = category.CategoryNameEN, CreationDate = x.CreationDate, Creator = x.User.UserName, H1Tag = x.H1Tag, Id = x.Id, ImageUrl =x.ImageUrl, SeoUrl = x.ArticleSeoData.SeoUrl });
+           
 
 
-            return result;
+            return articles;
         }
 
 

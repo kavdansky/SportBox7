@@ -35,7 +35,7 @@ namespace SportBox7.Controllers
             ArticleViewModel article = articleService.GetSingleArticle(id);
             return View(article);
         }
-
+       
         [HttpPost]
         public string SendSocialRequest(int articleId, bool isLiked)
         {

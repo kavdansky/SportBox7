@@ -1,4 +1,5 @@
-﻿using SportBox7.ViewModels.Categories;
+﻿using SportBox7.ViewModels.Articles;
+using SportBox7.ViewModels.Categories;
 using SportBox7.ViewModels.ViewComponents;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace SportBox7.Services.Interfaces
     public interface ICategoryService
     {
         public IList<MenuCategoryViewModel> GetMenuCategories(string currentCat);
-        public CategoryViewModel GetCategoryArticles(string categoryNameEn);
+        public IQueryable<ArticleInCategoryViewModel> GetCategoryArticles(string categoryNameEn);
     }
 }
