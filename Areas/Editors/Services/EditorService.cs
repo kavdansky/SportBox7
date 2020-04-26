@@ -41,7 +41,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         {
 
             string webRootPath = hostingEnvironment.WebRootPath;
-            string imageUrl = @$"{webRootPath}\Images\{model?.ImageName}.jpg";
+            string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
             Article article = mapper.Map<Article>(model);
             
             
@@ -67,6 +67,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
             ArticleSeoData seoData = mapper.Map<ArticleSeoData>(model);
             seoData.ArticleId = dbContext.Articles.Where(x => x == article).FirstOrDefault().Id;
+            seoData.SeoUrl = article.Title.Replace(" ", "-");
             dbContext.ArticlesSeoData.Add(seoData);
             dbContext.SaveChanges();
 
@@ -81,9 +82,31 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
         public void EditDraft(EditArticleViewModel model)
         {
-            Article draftToEdit = dbContext.Articles.Find(model.Id);
+            Article draftToEdit = dbContext.Articles.Find(model?.Id);
+            
+
+            if (model.ArticleImage != null)
+            {
+                string webRootPath = hostingEnvironment.WebRootPath;
+                string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
+                
+                using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+                {
+                    model.ArticleImage.CopyTo(fileStream);
+                }
+                model.ImageUrl = $@"\Images\{model.ImageName}.jpg";
+                byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
+                var resizzedImage = SkiaSharpImageManipulationProvider.ResizeStaticProportions(myBinaryImage, 460);
+                File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
+                
+            }
+            else
+            {
+                draftToEdit.ImageUrl = model.ImageUrl;
+            }
             draftToEdit.Body = model.Body;
             draftToEdit.CategoryId = model.CategoryId;
+            draftToEdit.ImageUrl = model.ImageUrl;
             draftToEdit.EnableComments = model.EnableComments;
             draftToEdit.H1Tag = model.H1Tag;
             draftToEdit.LastModDate = DateTime.UtcNow;
@@ -91,6 +114,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             draftToEdit.SourceURL = model.SourceURL;
             draftToEdit.Title = model.Title;
             draftToEdit.LastModDate = DateTime.UtcNow;
+            
             dbContext.SaveChanges();
 
             ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == draftToEdit.Id).FirstOrDefault();
@@ -114,10 +138,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
                 model.MetaKeyword = articleToEditSeoData.MetaKeyword;
                 model.MetaTitle = articleToEditSeoData.MetaTitle;
                 model.SeoUrl = articleToEditSeoData.SeoUrl;
-            }
-            
-                
-            
+            }          
             
             return model;
         }

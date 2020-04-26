@@ -48,8 +48,7 @@ namespace SportBox7.Areas.Editors.ViewModels
         [Required]
         public string MetaKeyword { get; set; }
 
-        [Required]
-        [Url]
+
         public string SeoUrl { get; set; }
 
 

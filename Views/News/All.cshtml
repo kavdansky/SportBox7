@@ -37,6 +37,7 @@
                                 <a href="#"><img src="@Model.ImageUrl" alt=""></a>
                             </div>
                             <div class="post-meta">
+                                <p>@Model.LastModDate.ToShortDateString()</p>
                                 <p class="post-author">By <a href="#">@Model.Creator</a></p>
                                 <p>@Model.Body</p>
                                 <!-- Post Like & Post Comment -->
@@ -67,8 +68,6 @@
                 let likesAreray = this.response.split("!");
                 document.getElementById("like").innerHTML = likesAreray[0];              
                 document.getElementById("dislike").innerHTML = likesAreray[1];
-                
-
             }
         };
         xhttp.open("POST", "/news/SendSocialRequest", true);

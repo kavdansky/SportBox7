@@ -28,29 +28,35 @@ namespace SportBox7.Services
 
         public List<Article> GetArticlesForHomePage()
         {
-            return dbContext.Articles.Include(x=> x.Category).Where(a=> a.IsDeleted == false && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
-                
+            return dbContext.Articles.Include(x=> x.Category).Include(x=> x.User).Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(a=> !a.IsDeleted && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();        
         }
 
         public IList<NewsWidgetViewModel> GetNewsWidget()
         {
-            List<NewsWidgetViewModel> latestArticles = dbContext.Articles.Include(x=> x.Category).Include(x=> x.ArticleSeoData).OrderByDescending(x => x.CreationDate).Select(x=> new NewsWidgetViewModel {Title = x.Title, Href = $"/News/All/{x.Id}/{x.Category.CategoryNameEN}/{x.Title}" }).ToList();
+            var articlesFromDb = dbContext.Articles.Include(x => x.Category).Include(x => x.ArticleSeoData).Where(x => !x.IsDeleted && x.State == ArticleState.Published).OrderByDescending(x => x.CreationDate);
+            if (articlesFromDb == null )
+            {
+                return null;
+            }
+            List<NewsWidgetViewModel> latestArticles = articlesFromDb.Select(x=> new NewsWidgetViewModel {Title = x.Title, Href = $"/News/All/{x.Id}/{x.Category.CategoryNameEN}/{x.Title}" }).ToList();
             return latestArticles;
         }
 
         public ArticleViewModel GetSingleArticle(int id)
         {
 
-            Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Where(x=> x.Id == id).FirstOrDefault();
-            ArticleSeoData articleSeoData = dbContext.ArticlesSeoData.Where(x=> x.ArticleId == articleInDb.Id).FirstOrDefault(); 
+            Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(x=> x.Id == id && !x.IsDeleted && x.State == ArticleState.Published).FirstOrDefault();
+            if (articleInDb == null)
+            {
+                return null;
+            }
             ArticleViewModel model = mapper.Map<ArticleViewModel>(articleInDb);
-            model.Id = articleInDb.Id;
             model.Likes[0] = articleInDb.SocialSignals.Where(x => x.IsLiked && x.ArticleId == articleInDb.Id).Count();
             model.Likes[1] = articleInDb.SocialSignals.Where(x => !x.IsLiked && x.ArticleId == articleInDb.Id).Count();
-            model.MetaDescription = articleSeoData.MetaDescription;
-            model.MetaKeyword = articleSeoData.MetaKeyword;
-            model.MetaTitle = articleSeoData.MetaTitle;
-            model.SeoUrl = articleSeoData.SeoUrl;
+            model.MetaDescription = articleInDb.ArticleSeoData.MetaDescription;
+            model.MetaKeyword = articleInDb.ArticleSeoData.MetaKeyword;
+            model.MetaTitle = articleInDb.ArticleSeoData.MetaTitle;
+            model.SeoUrl = articleInDb.ArticleSeoData.SeoUrl;
             model.Creator = dbContext.Users.Find(articleInDb.CreatorId).UserName;
             model.Category = dbContext.Categories.Find(articleInDb.CategoryId).CategoryName;
             model.CategoryEN = dbContext.Categories.Find(articleInDb.CategoryId).CategoryNameEN;
@@ -66,13 +72,12 @@ namespace SportBox7.Services
 
             for (int i = 0; i < categories.Count; i++)
             {
-                List<Article> currentCategoryArticles = dbContext.Articles.Include(x => x.Category).Where(x => x.CategoryId == categories[i].Id && !x.IsDeleted).OrderByDescending(x => x.CreationDate).ToList();
+                List<Article> currentCategoryArticles = dbContext.Articles.Include(x => x.Category).Where(x => x.CategoryId == categories[i].Id && !x.IsDeleted && x.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
                 if (currentCategoryArticles.Count > 1)
                 {
                     Article currentArticle = currentCategoryArticles[1];
                     model.Add(new SideBarViewModel() { ArticleId = currentArticle.Id, Category = categories[i].CategoryName, Date = currentArticle.CreationDate, Title = currentArticle.Title, ImageUrl = currentArticle.ImageUrl, CategoryNameEn = currentArticle.Category.CategoryNameEN });
-                }
-               
+                }              
             }
             return model;
         }

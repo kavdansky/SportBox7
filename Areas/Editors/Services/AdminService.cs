@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using SportBox7.Areas.Editors.ViewModels.Content;
 using SportBox7.Data;
 using SportBox7.Data.Enums;
 using SportBox7.Data.Models;
+using SportBox7.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,12 +16,15 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
     public class AdminService : IAdminService
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IMapper mapper;
 
         public AdminService(ApplicationDbContext dbContext,
+             IWebHostEnvironment hostingEnvironment,
             IMapper mapper)
         {
             this.dbContext = dbContext;
+            this.hostingEnvironment = hostingEnvironment;
             this.mapper = mapper;
         }
 
@@ -31,7 +37,27 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
         public void EditArticle(EditArticleViewModel model)
         {
-            Article articleToEdit = dbContext.Articles.Find(model.Id);
+            Article articleToEdit = dbContext.Articles.Find(model?.Id);
+            if (model.ArticleImage != null)
+            {
+                string webRootPath = hostingEnvironment.WebRootPath;
+                string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
+
+                using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+                {
+                    model.ArticleImage.CopyTo(fileStream);
+                }
+                model.ImageUrl = $@"\Images\{model.ImageName}.jpg";
+                byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
+                var resizzedImage = SkiaSharpImageManipulationProvider.ResizeStaticProportions(myBinaryImage, 460);
+                File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
+                articleToEdit.ImageUrl = $@"\Images\{model.ImageName}.jpg";
+            }
+            else
+            {
+                articleToEdit.ImageUrl = model.ImageUrl;
+            }
+
             articleToEdit.Body = model.Body;
             articleToEdit.CategoryId = model.CategoryId;
             articleToEdit.EnableComments = model.EnableComments;

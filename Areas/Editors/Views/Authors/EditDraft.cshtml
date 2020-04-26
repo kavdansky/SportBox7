@@ -11,7 +11,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Id" value="@Model.Id">
@@ -30,16 +30,31 @@
                 <input asp-for="H1Tag" class="form-control" />
                 <span asp-validation-for="H1Tag" class="text-danger"></span>
             </div>
+
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
                 </label>
             </div>
             <div class="form-group">
+                <label asp-for="ImageName" class="control-label"></label>
+                <input asp-for="ImageName" class="form-control" />
+                <span asp-validation-for="ImageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <label asp-for="ArticleImage" class="control-label"></label>
+            <input asp-for="ArticleImage" type="file" name="ArticleImage" class="form-control" />
+            <div class="form-group">
                 <label asp-for="SourceURL" class="control-label"></label>
                 <input asp-for="SourceURL" class="form-control" />
                 <span asp-validation-for="SourceURL" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="SourceName" class="control-label"></label>
                 <input asp-for="SourceName" class="form-control" />

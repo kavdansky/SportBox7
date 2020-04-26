@@ -48,17 +48,15 @@
                     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
                 }
 
-                <a asp-action="Details"
-                   
+                <a asp-action="Details"                  
                    asp-route-pageNumber="@(Model.PageIndex - 1)"
                    class="btn btn-default @prevDisabled">
-                    Previous
+                    Предишни
                 </a>
-                <a asp-action="Details"
-                  
+                <a asp-action="Details"                
                    asp-route-pageNumber="@(Model.PageIndex + 1)"
                    class="btn btn-default @nextDisabled">
-                    Next
+                    Следващи
                 </a>
             </div>
             <div class="col-12 col-lg-4">

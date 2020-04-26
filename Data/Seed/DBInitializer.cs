@@ -358,6 +358,7 @@ namespace SportBox7.Data.Seed
                     CategoryId = 4,
                     State = Enums.ArticleState.Published,
                     IsDeleted = false
+                    
 
                 };
                 Article article11 = new Article()
@@ -394,6 +395,92 @@ namespace SportBox7.Data.Seed
                     IsDeleted = false
 
                 };
+
+                article1.ArticleSeoData = new ArticleSeoData 
+                {
+                    MetaDescription = article1.Title,
+                    MetaKeyword = article1.Title,
+                    SeoUrl = article1.Title.Replace(" ", "-"),
+                    MetaTitle = article1.Title 
+                };
+                article2.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article2.Title,
+                    MetaKeyword = article2.Title,
+                    SeoUrl = article2.Title.Replace(" ", "-"),
+                    MetaTitle = article2.Title
+                };
+                article3.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article3.Title,
+                    MetaKeyword = article3.Title,
+                    SeoUrl = article3.Title.Replace(" ", "-"),
+                    MetaTitle = article3.Title
+                };
+                article4.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article4.Title,
+                    MetaKeyword = article4.Title,
+                    SeoUrl = article4.Title.Replace(" ", "-"),
+                    MetaTitle = article4.Title
+                };
+                article5.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article5.Title,
+                    MetaKeyword = article5.Title,
+                    SeoUrl = article5.Title.Replace(" ", "-"),
+                    MetaTitle = article5.Title
+                };
+                article6.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article6.Title,
+                    MetaKeyword = article6.Title,
+                    SeoUrl = article6.Title.Replace(" ", "-"),
+                    MetaTitle = article6.Title
+                };
+                article7.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article7.Title,
+                    MetaKeyword = article7.Title,
+                    SeoUrl = article7.Title.Replace(" ", "-"),
+                    MetaTitle = article7.Title
+                };
+                article8.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article8.Title,
+                    MetaKeyword = article8.Title,
+                    SeoUrl = article8.Title.Replace(" ", "-"),
+                    MetaTitle = article8.Title
+                };
+                article9.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article9.Title,
+                    MetaKeyword = article9.Title,
+                    SeoUrl = article9.Title.Replace(" ", "-"),
+                    MetaTitle = article9.Title
+                };
+                article10.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article10.Title,
+                    MetaKeyword = article10.Title,
+                    SeoUrl = article10.Title.Replace(" ", "-"),
+                    MetaTitle = article10.Title
+                };
+                article11.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article11.Title,
+                    MetaKeyword = article11.Title,
+                    SeoUrl = article11.Title.Replace(" ", "-"),
+                    MetaTitle = article11.Title
+                };
+                article12.ArticleSeoData = new ArticleSeoData
+                {
+                    MetaDescription = article12.Title,
+                    MetaKeyword = article12.Title,
+                    SeoUrl = article12.Title.Replace(" ", "-"),
+                    MetaTitle = article12.Title
+                };
+
 
                 context.Articles.Add(article1);
                 context.Articles.Add(article2);

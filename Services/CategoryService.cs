@@ -26,11 +26,9 @@ namespace SportBox7.Services
         {
 
             var category = dbContext.Categories.Where(c => c.CategoryNameEN == categoryNameEn).Select(c => new CategoryViewModel() { CategoryName = c.CategoryName, CategoryNameEN = c.CategoryNameEN, CategoryId = c.Id }).FirstOrDefault();
-           
-            IQueryable<ArticleInCategoryViewModel> articles = dbContext.Articles.Include(x=> x.User).Include(x=> x.ArticleSeoData).Where(x => x.CategoryId == category.CategoryId).OrderByDescending(x => x.CreationDate).Select(x => new ArticleInCategoryViewModel {Body = x.Body, Category = category.CategoryName, CategoryId = category.CategoryId, CategoryEN = category.CategoryNameEN, CreationDate = x.CreationDate, Creator = x.User.UserName, H1Tag = x.H1Tag, Id = x.Id, ImageUrl =x.ImageUrl, SeoUrl = x.ArticleSeoData.SeoUrl });
-           
 
-
+            IQueryable<ArticleInCategoryViewModel> articles = dbContext.Articles.Include(x => x.User).Include(x => x.ArticleSeoData).Where(x => x.CategoryId == category.CategoryId).OrderByDescending(x => x.CreationDate).Select(x => new ArticleInCategoryViewModel { Body = x.Body.Substring(0, 250), Category = category.CategoryName, CategoryId = category.CategoryId, CategoryEN = category.CategoryNameEN, CreationDate = x.CreationDate, Creator = x.User.UserName, H1Tag = x.H1Tag, Id = x.Id, ImageUrl = x.ImageUrl, SeoUrl = x.ArticleSeoData.SeoUrl }); ;
+           
             return articles;
         }
 

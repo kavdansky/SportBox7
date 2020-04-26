@@ -22,6 +22,10 @@ namespace SportBox7.Areas.Editors.ViewModels.Content
 
         public bool EnableComments { get; set; }
 
+        public string ImageName { get; set; }
+
+        public IFormFile ArticleImage { get; set; }
+
         [Url]
         public string SourceURL { get; set; }
 
@@ -29,7 +33,6 @@ namespace SportBox7.Areas.Editors.ViewModels.Content
 
         public int CategoryId { get; set; }
 
-        [Url]
         public string ImageUrl { get; set; }
 
         [Required]
@@ -41,8 +44,6 @@ namespace SportBox7.Areas.Editors.ViewModels.Content
         [Required]
         public string MetaKeyword { get; set; }
 
-        [Required]
-        [Url]
         public string SeoUrl { get; set; }
     }
 }
