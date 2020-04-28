@@ -6,85 +6,86 @@
     ViewData["Title"] = "EditDraft";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
+    <div class="container-fluid col-12">
+        <h1>Edit Draft</h1>
 
-<h1>Edit Draft</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <form method="post" enctype="multipart/form-data">
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" value="@Model.Id">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Body" class="control-label"></label>
+                        <textarea asp-for="Body" class="form-control"></textarea>
+                        <span asp-validation-for="Body" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="H1Tag" class="control-label"></label>
+                        <input asp-for="H1Tag" class="form-control" />
+                        <span asp-validation-for="H1Tag" class="text-danger"></span>
+                    </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <form method="post" enctype="multipart/form-data">
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" value="@Model.Id">
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" class="form-control"></textarea>
-                <span asp-validation-for="Body" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="H1Tag" class="control-label"></label>
-                <input asp-for="H1Tag" class="form-control" />
-                <span asp-validation-for="H1Tag" class="text-danger"></span>
-            </div>
-
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageName" class="control-label"></label>
-                <input asp-for="ImageName" class="form-control" />
-                <span asp-validation-for="ImageName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <label asp-for="ArticleImage" class="control-label"></label>
-            <input asp-for="ArticleImage" type="file" name="ArticleImage" class="form-control" />
-            <div class="form-group">
-                <label asp-for="SourceURL" class="control-label"></label>
-                <input asp-for="SourceURL" class="form-control" />
-                <span asp-validation-for="SourceURL" class="text-danger"></span>
-            </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="EnableComments" /> @Html.DisplayNameFor(model => model.EnableComments)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageName" class="control-label"></label>
+                        <input asp-for="ImageName" class="form-control" />
+                        <span asp-validation-for="ImageName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUrl" class="control-label"></label>
+                        <input asp-for="ImageUrl" class="form-control" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+                    <label asp-for="ArticleImage" class="control-label"></label>
+                    <input asp-for="ArticleImage" type="file" name="ArticleImage" class="form-control" />
+                    <div class="form-group">
+                        <label asp-for="SourceURL" class="control-label"></label>
+                        <input asp-for="SourceURL" class="form-control" />
+                        <span asp-validation-for="SourceURL" class="text-danger"></span>
+                    </div>
 
 
-            <div class="form-group">
-                <label asp-for="SourceName" class="control-label"></label>
-                <input asp-for="SourceName" class="form-control" />
-                <span asp-validation-for="SourceName" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="SourceName" class="control-label"></label>
+                        <input asp-for="SourceName" class="form-control" />
+                        <span asp-validation-for="SourceName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label"></label>
+                        <select asp-for="CategoryId" class="form-control" value="@Model.CategoryId" asp-items="@ViewBag.ArticleCategories"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaTitle" class="control-label"></label>
+                        <input asp-for="MetaTitle" class="form-control" />
+                        <span asp-validation-for="MetaTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaDescription" class="control-label"></label>
+                        <input asp-for="MetaDescription" class="form-control" />
+                        <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MetaKeyword" class="control-label"></label>
+                        <input asp-for="MetaKeyword" class="form-control" />
+                        <span asp-validation-for="MetaKeyword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SeoUrl" class="control-label"></label>
+                        <input asp-for="SeoUrl" class="form-control" />
+                        <span asp-validation-for="SeoUrl" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" value="@Model.CategoryId" asp-items="@ViewBag.ArticleCategories"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MetaTitle" class="control-label"></label>
-                <input asp-for="MetaTitle" class="form-control" />
-                <span asp-validation-for="MetaTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MetaDescription" class="control-label"></label>
-                <input asp-for="MetaDescription" class="form-control" />
-                <span asp-validation-for="MetaDescription" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MetaKeyword" class="control-label"></label>
-                <input asp-for="MetaKeyword" class="form-control" />
-                <span asp-validation-for="MetaKeyword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SeoUrl" class="control-label"></label>
-                <input asp-for="SeoUrl" class="form-control" />
-                <span asp-validation-for="SeoUrl" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        </div>
     </div>
-</div>

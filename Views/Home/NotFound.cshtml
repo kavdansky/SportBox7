@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "NotFound";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="hero-area">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-12 col-lg-8">
+                <!-- Breaking News Widget -->
+                <partial name="_NewsWidgetPartial" model="@ViewBag.NewsWidget" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ##### Hero Area End ##### -->
+<!-- ##### Blog Area Start ##### -->
+<div class="blog-area section-padding-0-80">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="blog-posts-area">
+
+                    <!-- Single Featured Post -->
+                    <div class="single-blog-post featured-post single-post">
+
+                        <div class="post-data">                           
+                                <h2>Страницата която търсите не съществува</h2>                  
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                @await Component.InvokeAsync("SideBar")
+                <vc:side-bar></vc:side-bar>
+            </div>
+        </div>
+    </div>
+</div>

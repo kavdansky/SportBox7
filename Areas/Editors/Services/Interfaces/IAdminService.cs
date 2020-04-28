@@ -8,10 +8,10 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 {
     public interface IAdminService
     {
-        void PublishArticle(int id);
-        EditArticleViewModel EditArticleGetModel(int draftId);
-        void EditArticle(EditArticleViewModel model);
-        void UnPublish(int articleId);
-        void DeleteArticle(int articleId);
+        public bool PublishArticle(int id);
+        public EditArticleViewModel EditArticleGetModel(int draftId);
+        public bool EditArticle(EditArticleViewModel model);
+        public bool UnPublish(int articleId);
+        public bool DeleteArticle(int articleId);
     }
 }

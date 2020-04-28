@@ -10,7 +10,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
     public interface IAuthorService
     {
         
-        void SentDraftForReview(int articleId);
+        bool SentDraftForReview(int articleId);
         ICollection<AllArticlesViewModel> LoadMyArticlesForReview(string userId);
         ICollection<AllArticlesViewModel> LoadMyPublishedArticles(string userId);
 

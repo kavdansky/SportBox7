@@ -11,7 +11,7 @@ namespace SportBox7.Services.Interfaces
 {
     public interface IArticleService
     {
-        List<Article> GetArticlesForHomePage();
+        List<ArticleViewModel> GetArticlesForHomePage();
 
         ArticleViewModel GetSingleArticle(int id);
 

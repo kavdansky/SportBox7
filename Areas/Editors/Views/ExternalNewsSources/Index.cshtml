@@ -3,19 +3,20 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
-
-<h1>External news services</h1>
-<hr />
-<button class="btn btn-primary" onclick="window.location='/Editors/ExternalNewsSources/NewsFeed'">Newsfeed</button>  
-<button class="btn btn-primary" onclick="window.location='/Editors/ExternalNewsSources/TheSportsDb'">The Sports Db</button>
-<br />
-<br />
-@{if (this.User.IsInRole("Admin") || this.User.IsInRole("ChiefEditor"))
-    {
-        <button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Back to Content Management</button>
-    }
-    else if(this.User.IsInRole("Author"))
-    {
-        <button class="btn btn-primary" onclick="window.location='/Editors/Authors/Index'">Back to Author Panel</button>
-    }
-}
+    <div class="container-fluid col-12">
+        <h1>External news services</h1>
+        <hr />
+        <button class="btn btn-primary" onclick="window.location='/Editors/ExternalNewsSources/NewsFeed'">Newsfeed</button>
+        <button class="btn btn-primary" onclick="window.location='/Editors/ExternalNewsSources/TheSportsDb'">The Sports Db</button>
+        <br />
+        <br />
+        @{if (this.User.IsInRole("Admin") || this.User.IsInRole("ChiefEditor"))
+            {
+                <button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Back to Content Management</button>
+            }
+            else if (this.User.IsInRole("Author"))
+            {
+                <button class="btn btn-primary" onclick="window.location='/Editors/Authors/Index'">Back to Author Panel</button>
+            }
+        }
+</div>

@@ -6,11 +6,11 @@
     ViewData["Title"] = "AddArticleForReview";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
-
+<div class="container-fluid col-12">
 <h1>Add new draft</h1>
 
 
-<hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="AddNewDraft" enctype="multipart/form-data">
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Body" class="control-label"></label>
-                <textarea asp-for="Body" class="form-control"></textarea>
+                <textarea asp-for="Body" rows="10" cols="20" class="form-control"></textarea>
                 <span asp-validation-for="Body" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -87,4 +87,4 @@
 <div>
     <a href="/Editors/Authors/AllDrafts">Back to Drafts</a>
 </div>
-
+</div>

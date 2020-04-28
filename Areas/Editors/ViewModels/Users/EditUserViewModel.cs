@@ -34,6 +34,7 @@ namespace SportBox7.Areas.Editors.ViewModels.Users
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "Role")]
         public string Role { get; set; }
 
         public Dictionary<int, bool> UserCategories { get; set; }

@@ -31,34 +31,9 @@ namespace SportBox7.Controllers
 
         public async Task<IActionResult> Index()
         {
-
             ViewBag.NewsWidget = articleService.GetNewsWidget();
-            
-            //
-            //
-            //
-            //
-            //var currentLeagues = context.Leagues;
-
-
-            //foreach (var league in container.Leagues)
-            //{
-            //    Data.Models.League newLeague = new Data.Models.League();
-            //    newLeague.Id = league.idLeague;
-            //    newLeague.LeagueName = league.strLeague;
-            //    newLeague.SportName = league.strSport;
-            //    newLeague.LeagueNameAlternate = league.strLeagueAlternate;
-            //    if (!currentLeagues.Where(x=> x.Id == league.idLeague).Any())
-            //    {
-            //        currentLeagues.Add(newLeague);
-            //    }
-            //    
-            //}
-            //await context.SaveChangesAsync().ConfigureAwait(true);
-
             var model = articleService.GetArticlesForHomePage();
             return View(model);
-
         }
 
 
@@ -72,5 +47,14 @@ namespace SportBox7.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+      
+        public async Task<IActionResult> NotFound()
+        {
+            ViewBag.NewsWidget = articleService.GetNewsWidget();
+            return View();
+        }
+
+
     }
 }

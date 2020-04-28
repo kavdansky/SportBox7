@@ -37,14 +37,16 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         }
 
 
-        public void AddNewDraft(AddArticleViewModel model)
+        public bool AddNewDraft(AddArticleViewModel model)
         {
 
+            if (model == null)
+            {
+                return false;
+            }
             string webRootPath = hostingEnvironment.WebRootPath;
             string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
-            Article article = mapper.Map<Article>(model);
-            
-            
+            Article article = mapper.Map<Article>(model);          
             if (model.ArticleImage != null)
             {
                 using (var fileStream = new FileStream(imageUrl, FileMode.Create))
@@ -64,27 +66,35 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             article.CategoryId = model.CategoryId;
             dbContext.Articles.Add(article);
             dbContext.SaveChanges();
-
             ArticleSeoData seoData = mapper.Map<ArticleSeoData>(model);
             seoData.ArticleId = dbContext.Articles.Where(x => x == article).FirstOrDefault().Id;
             seoData.SeoUrl = article.Title.Replace(" ", "-");
             dbContext.ArticlesSeoData.Add(seoData);
             dbContext.SaveChanges();
+            return true;
 
         }
 
-        public void DeleteDraft(int draftId)
+        public bool DeleteDraft(int draftId)
         {
             Article draftToDelete = dbContext.Articles.Find(draftId);
+            if (draftToDelete == null)
+            {
+                return false;
+            }
             draftToDelete.IsDeleted = true;
             dbContext.SaveChanges();
+            return true;
         }
 
-        public void EditDraft(EditArticleViewModel model)
+        public bool EditDraft(EditArticleViewModel model)
         {
             Article draftToEdit = dbContext.Articles.Find(model?.Id);
-            
 
+            if (draftToEdit == null)
+            {
+                return false;
+            }
             if (model.ArticleImage != null)
             {
                 string webRootPath = hostingEnvironment.WebRootPath;
@@ -123,12 +133,17 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             articleSeoDataToEdit.MetaTitle = model.MetaTitle;
             articleSeoDataToEdit.SeoUrl = model.SeoUrl;
             dbContext.SaveChanges();
+            return true;
         }
 
         public EditArticleViewModel EditDraftGetModel(int draftId)
         {
             EditArticleViewModel model = new EditArticleViewModel();
             Article articleToEdit = dbContext.Articles.Find(draftId);
+            if (articleToEdit == null)
+            {
+                return null;
+            }
             ArticleSeoData articleToEditSeoData = dbContext.ArticlesSeoData.Where(a => a.ArticleId == articleToEdit.Id).FirstOrDefault();
             model = mapper.Map<EditArticleViewModel>(articleToEdit);
             model.CategoryId = articleToEdit.CategoryId;
@@ -153,24 +168,32 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         public AllArticlesViewModel GetDeleteDraftModel(int draftId)
         {
             Article draftToDelete = dbContext.Articles.Find(draftId);
+            if (draftToDelete == null)
+            {
+                return null;
+            }
             string modelCategory = dbContext.Categories.Find(draftToDelete.CategoryId).CategoryName;
             AllArticlesViewModel model = mapper.Map<AllArticlesViewModel>(draftToDelete);
-            model.Category = modelCategory;
-            
+            model.Category = modelCategory;         
             return model;
-
         }
 
         public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor)
         {
             var userId = httpContextAccessor?.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userRole = dbContext.UserRoles.Where(x => x.UserId == userId).FirstOrDefault();
+            if (userId == null || userRole == null)
+            {
+                return null;
+            }
             var userRoleId = userRole.RoleId;
-
 
             List <SelectListItem> categories = new List<SelectListItem>();
             var userPermitedCategories = this.dbContext.UserCategories.Where(x => x.UserId == userId).ToList();
-           
+            if (userPermitedCategories == null)
+            {
+                return null;
+            }
            
             foreach (var category in userPermitedCategories)
             {
@@ -186,6 +209,10 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         {
             ICollection<AllArticlesViewModel> draftsToReturn = new List<AllArticlesViewModel>();
             var userDrafts = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.Draft && d.IsDeleted == false).OrderByDescending(x=> x.CreationDate);
+            if (draftsToReturn == null)
+            {
+                return null;
+            }
 
             foreach (var draft in userDrafts)
             {
@@ -202,7 +229,10 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         {
             ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
             var articles = dbContext.Articles.Where(d =>  d.State == ArticleState.Published && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
-
+            if (articles == null)
+            {
+                return null;
+            }
             foreach (var article in articles)
             {
                 AllArticlesViewModel tempDraftViewModel = mapper.Map<AllArticlesViewModel>(article);
@@ -217,14 +247,16 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         {
             ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
             var articles = dbContext.Articles.Where(d => d.State == ArticleState.ForApproval && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
-
+            if (articles == null)
+            {
+                return null;
+            }
             foreach (var article in articles)
             {
                 AllArticlesViewModel tempArticleToReturnViewModel = mapper.Map<AllArticlesViewModel>(article);
                 tempArticleToReturnViewModel.Category = dbContext.Categories.Where(c => c.Id == article.CategoryId).FirstOrDefault().CategoryName;
                 articlesToReturn.Add(tempArticleToReturnViewModel);
             }
-
             return articlesToReturn;
         }
     }

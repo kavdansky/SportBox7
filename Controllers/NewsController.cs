@@ -33,13 +33,16 @@ namespace SportBox7.Controllers
 
             ViewBag.NewsWidget = articleService.GetNewsWidget();
             ArticleViewModel article = articleService.GetSingleArticle(id);
+            if (article == null)
+            {
+                return Redirect($"/Home/NotFound");
+            }
             return View(article);
         }
        
         [HttpPost]
         public string SendSocialRequest(int articleId, bool isLiked)
         {
-
             var ip = accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
             return socialService.SetNewSocialAction(ip, isLiked, articleId);
         }

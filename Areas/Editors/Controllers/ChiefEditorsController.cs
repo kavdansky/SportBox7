@@ -17,21 +17,10 @@ namespace SportBox7.Areas.Editors.Controllers
     public class ChiefEditorsController : Controller
     {
         
-        private readonly IEditorService editorService;
-        private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IValidationService validationService;
-        private readonly IAdminService adminService;
 
-        public ChiefEditorsController(IEditorService editorService,
-            IHttpContextAccessor httpContextAccessor,
-            IValidationService validationService,
-            IAdminService adminService)
+        public ChiefEditorsController()
         {
-            
-            this.editorService = editorService;
-            this.httpContextAccessor = httpContextAccessor;
-            this.validationService = validationService;
-            this.adminService = adminService;
+          
         }
 
         [Area("Editors")]

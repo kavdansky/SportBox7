@@ -18,14 +18,19 @@ namespace SportBox7.Areas.Editors.Services
             this.dbContext = dbContext;
         }
 
+       
         public bool CheckArticleUserPermissions(string userId)
         {
-           
-            string userRoleId = dbContext.UserRoles.Where(u => u.UserId == userId).FirstOrDefault().RoleId;
+
+            var userRole = dbContext.UserRoles.Where(u => u.UserId == userId).FirstOrDefault();
+            if (userRole == null)
+            {
+                return false;
+            }
             string[] permittedRoleIds = dbContext.Roles.Where(r => r.NormalizedName == "ADMIN" || r.NormalizedName == "CHIEFEDITOR").Select(x=> x.Id).ToArray();
             for (int i = 0; i < permittedRoleIds.Length; i++)
             {
-                if (userRoleId == permittedRoleIds[i])
+                if (userRole.RoleId == permittedRoleIds[i])
                 {
                     return true;
                 }
@@ -36,7 +41,7 @@ namespace SportBox7.Areas.Editors.Services
         public bool CheckDraftUserPermissions(string userId, int draftId)
         {
             Article articleToCheck = dbContext.Articles.Find(draftId);
-            if (articleToCheck?.CreatorId == userId && articleToCheck.State == ArticleState.Draft)
+            if (articleToCheck?.CreatorId == userId && articleToCheck?.State == ArticleState.Draft)
             {
                 return true;
             }

@@ -3,11 +3,12 @@
     ViewData["Title"] = "DeleteDraft";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Are you sure you want to delete this draft?</h1>
-<h3>Title: @Model.Title, Category: @Model.Category</h3>
-<form method="post">
-    <input type="hidden" name="Id" value="@Model.Id" />
-    <input type="submit" class="btn btn-default" value="Yes" />
-</form>
-<button class="btn btn-default" onclick="window.location='/Editors/ContentManagement/AllDrafts'">Back to drafts</button>
+    <div class="container-fluid col-12">
+        <h1>Are you sure you want to delete this draft?</h1>
+        <h3>Title: @Model.Title, Category: @Model.Category</h3>
+        <form method="post">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="submit" class="btn btn-default" value="Yes" />
+        </form>
+        <button class="btn btn-default" onclick="window.location='/Editors/ContentManagement/AllDrafts'">Back to drafts</button>
+     </div>

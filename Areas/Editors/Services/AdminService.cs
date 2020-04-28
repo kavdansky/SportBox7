@@ -28,59 +28,76 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             this.mapper = mapper;
         }
 
-        public void DeleteArticle(int articleId)
+        public bool DeleteArticle(int articleId)
         {
             Article articleToDelete = dbContext.Articles.Find(articleId);
-            articleToDelete.IsDeleted = true;
-            dbContext.SaveChanges();
+            if (articleToDelete != null)
+            {
+                articleToDelete.IsDeleted = true;
+                dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+            
         }
 
-        public void EditArticle(EditArticleViewModel model)
+        public bool EditArticle(EditArticleViewModel model)
         {
             Article articleToEdit = dbContext.Articles.Find(model?.Id);
-            if (model.ArticleImage != null)
+            if (articleToEdit != null)
             {
-                string webRootPath = hostingEnvironment.WebRootPath;
-                string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
-
-                using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+                if (model.ArticleImage != null)
                 {
-                    model.ArticleImage.CopyTo(fileStream);
+                    string webRootPath = hostingEnvironment.WebRootPath;
+                    string imageUrl = @$"{webRootPath}/Images/{model?.ImageName}.jpg";
+
+                    using (var fileStream = new FileStream(imageUrl, FileMode.Create))
+                    {
+                        model.ArticleImage.CopyTo(fileStream);
+                    }
+                    model.ImageUrl = $@"\Images\{model.ImageName}.jpg";
+                    byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
+                    var resizzedImage = SkiaSharpImageManipulationProvider.ResizeStaticProportions(myBinaryImage, 460);
+                    File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
+                    articleToEdit.ImageUrl = $@"\Images\{model.ImageName}.jpg";
                 }
-                model.ImageUrl = $@"\Images\{model.ImageName}.jpg";
-                byte[] myBinaryImage = File.ReadAllBytes(imageUrl);
-                var resizzedImage = SkiaSharpImageManipulationProvider.ResizeStaticProportions(myBinaryImage, 460);
-                File.WriteAllBytes(imageUrl, resizzedImage.FileContents);
-                articleToEdit.ImageUrl = $@"\Images\{model.ImageName}.jpg";
-            }
-            else
-            {
-                articleToEdit.ImageUrl = model.ImageUrl;
-            }
+                else
+                {
+                    articleToEdit.ImageUrl = model.ImageUrl;
+                }
 
-            articleToEdit.Body = model.Body;
-            articleToEdit.CategoryId = model.CategoryId;
-            articleToEdit.EnableComments = model.EnableComments;
-            articleToEdit.H1Tag = model.H1Tag;
-            articleToEdit.LastModDate = DateTime.UtcNow;
-            articleToEdit.SourceName = model.SourceName;
-            articleToEdit.SourceURL = model.SourceURL;
-            articleToEdit.Title = model.Title;
-            articleToEdit.LastModDate = DateTime.UtcNow;
-            dbContext.SaveChanges();
+                articleToEdit.Body = model.Body;
+                articleToEdit.CategoryId = model.CategoryId;
+                articleToEdit.EnableComments = model.EnableComments;
+                articleToEdit.H1Tag = model.H1Tag;
+                articleToEdit.LastModDate = DateTime.UtcNow;
+                articleToEdit.SourceName = model.SourceName;
+                articleToEdit.SourceURL = model.SourceURL;
+                articleToEdit.Title = model.Title;
+                articleToEdit.LastModDate = DateTime.UtcNow;
+                dbContext.SaveChanges();
 
-            ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == articleToEdit.Id).FirstOrDefault();
-            articleSeoDataToEdit.MetaDescription = model.MetaDescription;
-            articleSeoDataToEdit.MetaKeyword = model.MetaKeyword;
-            articleSeoDataToEdit.MetaTitle = model.MetaTitle;
-            articleSeoDataToEdit.SeoUrl = model.SeoUrl;
-            dbContext.SaveChanges();
+                ArticleSeoData articleSeoDataToEdit = dbContext.ArticlesSeoData.Where(x => x.ArticleId == articleToEdit.Id).FirstOrDefault();
+                articleSeoDataToEdit.MetaDescription = model.MetaDescription;
+                articleSeoDataToEdit.MetaKeyword = model.MetaKeyword;
+                articleSeoDataToEdit.MetaTitle = model.MetaTitle;
+                articleSeoDataToEdit.SeoUrl = model.SeoUrl;
+                dbContext.SaveChanges();
+
+                return true;
+            }
+            return false;           
         }
 
         public EditArticleViewModel EditArticleGetModel(int draftId)
         {
             EditArticleViewModel model = new EditArticleViewModel();
             Article articleToEdit = dbContext.Articles.Find(draftId);
+            if (articleToEdit == null)
+            {
+                return null;
+            }
+
             ArticleSeoData articleToEditSeoData = dbContext.ArticlesSeoData.Where(a => a.ArticleId == articleToEdit.Id).FirstOrDefault();
             model = mapper.Map<EditArticleViewModel>(articleToEdit);
             model.CategoryId = articleToEdit.CategoryId;
@@ -91,18 +108,29 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
             return model;
         }
 
-        public void PublishArticle(int id)
+        public bool PublishArticle(int id)
         {
-            Article articleForApprove = dbContext.Articles.Find(id);
-            articleForApprove.State = ArticleState.Published;
+            Article articleForPublish = dbContext.Articles.Find(id);
+            if (articleForPublish == null)
+            {
+                return false; ;
+            }
+            articleForPublish.State = ArticleState.Published;
             dbContext.SaveChanges();
+            return true;
+
         }
 
-        public void UnPublish(int articleId)
+        public bool UnPublish(int articleId)
         {
             Article articleForReturn = dbContext.Articles.Find(articleId);
+            if (articleForReturn == null)
+            {
+                return false;
+            }
             articleForReturn.State = ArticleState.ForApproval;
             dbContext.SaveChanges();
+            return true;
         }
     }
 }

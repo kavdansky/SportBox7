@@ -27,9 +27,12 @@ namespace SportBox7.Areas.Editors.Services
         {
             string json = "";
             using WebClient client = new WebClient();          
-            string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
             json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/all_leagues.php").ConfigureAwait(true);
             LeaguesContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<LeaguesContainer>(json);
+            if (container == null)
+            {
+                return null;
+            }
             return container;
         }
 
@@ -37,9 +40,12 @@ namespace SportBox7.Areas.Editors.Services
         {
             string json = "";
             using WebClient client = new WebClient();
-            string apiKey = "2ab3d4cc504e93fa2849ead5596dbbea36f7f4e6f0f2bc6e4899fd1dfda3b24d";
             json = await client.DownloadStringTaskAsync($@"https://www.thesportsdb.com/api/v1/json/1/lookup_all_teams.php?id={id}").ConfigureAwait(true);
             TeamsContainer container = Newtonsoft.Json.JsonConvert.DeserializeObject<TeamsContainer>(json);
+            if (container == null)
+            {
+                return null;
+            }
             return container;
         }
 
@@ -59,7 +65,12 @@ namespace SportBox7.Areas.Editors.Services
                 }
             }
 
-            return rawArticlesToReturn.OrderByDescending(x => x.Date).ToList();
+            var result = rawArticlesToReturn.OrderByDescending(x => x.Date).ToList();
+            if (result == null)
+            {
+                return null;
+            }
+            return result;
         }
 
         public RawArticleViewModel GetRawNewsDetails(int id)
@@ -84,9 +95,13 @@ namespace SportBox7.Areas.Editors.Services
             
         }
 
-        public int MakeRawArticleDraft(int articleId, string userId)
+        public int? MakeRawArticleDraft(int articleId, string userId)
         {
             RawArticle rawArticle = dbContext.RawArticles.Find(articleId);
+            if (rawArticle == null)
+            {
+                return null;
+            }
             Article newArticle = mapper.Map<Article>(rawArticle);
             newArticle.TempArticleId = newArticle.Id;
             newArticle.Id = 0;

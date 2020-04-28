@@ -28,7 +28,10 @@ namespace SportBox7.Services
             var category = dbContext.Categories.Where(c => c.CategoryNameEN == categoryNameEn).Select(c => new CategoryViewModel() { CategoryName = c.CategoryName, CategoryNameEN = c.CategoryNameEN, CategoryId = c.Id }).FirstOrDefault();
 
             IQueryable<ArticleInCategoryViewModel> articles = dbContext.Articles.Include(x => x.User).Include(x => x.ArticleSeoData).Where(x => x.CategoryId == category.CategoryId).OrderByDescending(x => x.CreationDate).Select(x => new ArticleInCategoryViewModel { Body = x.Body.Substring(0, 250), Category = category.CategoryName, CategoryId = category.CategoryId, CategoryEN = category.CategoryNameEN, CreationDate = x.CreationDate, Creator = x.User.UserName, H1Tag = x.H1Tag, Id = x.Id, ImageUrl = x.ImageUrl, SeoUrl = x.ArticleSeoData.SeoUrl }); ;
-           
+            if (category == null || articles == null)
+            {
+                return null;
+            }
             return articles;
         }
 
@@ -37,7 +40,7 @@ namespace SportBox7.Services
 
         {
             List<MenuCategoryViewModel> categories = new List<MenuCategoryViewModel>();
-            categories.Add(new MenuCategoryViewModel {isCurrent = false, NameBg = "Начало", NameEn = "Home" });
+            categories.Add(new MenuCategoryViewModel {isCurrent = false, NameBg = "Начало", NameEn = "Home" }); //Always not null
             categories.AddRange(dbContext.Categories.Select(c => new MenuCategoryViewModel() { NameBg = c.CategoryName, NameEn = c.CategoryNameEN }).ToList());
            
             for (int i = 0; i < categories.Count; i++)

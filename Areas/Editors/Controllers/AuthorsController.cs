@@ -35,7 +35,6 @@ namespace SportBox7.Areas.Editors.Controllers
         
         public IActionResult Index()
         {
-
             return View();
         }
 
@@ -51,15 +50,16 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpPost]
         public async Task<IActionResult> AddNewDraft(AddArticleViewModel model)
         {
-
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (ModelState.IsValid && userId != null)
+           
+            if (ModelState.IsValid)
             {
+                var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
                 model.CreatorId = userId;
                 editorService.AddNewDraft(model);
                 return RedirectToAction("AllDrafts");
-            }
-            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
+
+            }          
             return View(model);
         }
 
@@ -67,7 +67,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> AllDrafts()
         {
-            //TODO Check User and draft
+            
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(editorService.LoadAllDrafts(userId));
         }

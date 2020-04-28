@@ -3,18 +3,19 @@
     ViewData["Title"] = "Deactivate User Fail";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
+    <div class="container-fluid col-12">
+        @if (Model.IsActive)
+        {
+            <h1>Deactivation @Model.UserName failed!</h1>
+        }
+        else
+        {
+            <h1>Activation @Model.UserName failed!</h1>
 
-@if (Model.IsActive)
-{
-    <h1>Deactivation @Model.UserName failed!</h1>
-}
-else
-{
-    <h1>Activation @Model.UserName failed!</h1>
-
-}
-
-
-<a href="/Editors/Users/AllUsers">Go to all users</a>
+        }
 
 
+        <a href="/Editors/Users/AllUsers">Go to all users</a>
+
+
+</div>

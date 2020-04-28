@@ -46,6 +46,7 @@ namespace SportBox7.Areas.Editors.Controllers
             ICollection<RawArticleViewModel> news = externalNewsService.GetExternalNews(userPermittedCategories);
             return View(news);
         }
+
         [Area("Editors")]
         [HttpGet]
         public async Task<IActionResult> TheSportsDb(string sport)
@@ -54,11 +55,14 @@ namespace SportBox7.Areas.Editors.Controllers
             {
                 sport = "soccer";
             }
-            //var userPermittedCategories = editorService.GetUserCategories(httpContextAccessor).Select(c => int.Parse(c.Value)).ToArray();
             var result = await externalNewsService.GetAllLagues().ConfigureAwait(true);
-            var allSportS = GetSports(result, sport);
-            result.Leagues = result.Leagues.Where(l => l.strSport.ToLower() == sport.ToLower()).ToList();
-            ViewBag.Sports = allSportS;
+            if (result != null)
+            {
+                var allSportS = GetSports(result, sport);
+                result.Leagues = result.Leagues.Where(l => l.strSport.ToLower() == sport.ToLower()).ToList();
+                ViewBag.Sports = allSportS;
+            }
+            
             return View(result);
         }
 
@@ -119,7 +123,11 @@ namespace SportBox7.Areas.Editors.Controllers
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var userPermittedCategories = editorService.GetUserCategories(httpContextAccessor).Select(c => int.Parse(c.Value)).ToArray();
             var result = externalNewsService.MakeRawArticleDraft(id, userId);
-            return RedirectToAction("NewsFeed");
+            if (this.User.IsInRole("Author"))
+            {
+                return Redirect("/Editors/Authors/AllDrafts");
+            }
+            return Redirect("/Editors/ContentManagement/AllDrafts");
         }
 
 

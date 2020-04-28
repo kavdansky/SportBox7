@@ -13,7 +13,7 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 
         public RawArticleViewModel GetRawNewsDetails(int id);
 
-        public int MakeRawArticleDraft(int articleId, string userId);
+        public int? MakeRawArticleDraft(int articleId, string userId);
 
         public Task<LeaguesContainer> GetAllLagues();
 

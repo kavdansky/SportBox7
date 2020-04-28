@@ -4,31 +4,33 @@
     ViewData["Title"] = "AllDrafts";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
+    <div class="container-fluid col-12">
+        <h1>Your Drafts</h1>
+        <hr />
+        <button class="btn btn-primary" onclick="window.location='/Editors/Authors/AddNewDraft'">Add new draft</button>
+        <br />
+        <br />
+        <table class="table table-bordered">
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var draft in Model)
+            {
+                <tr>
+                    <td>@draft.CreationDate.ToShortDateString()</td>
+                    <td>@draft.Title</td>
+                    <td>@draft.Category</td>
+                    <td>
+                        <a href="/Editors/Authors/DeleteDraft/@draft.Id">Delete</a> | <a href="/Editors/Authors/EditDraft/@draft.Id">Edit</a>
+                        | <a href="/Editors/Authors/SendForReview/@draft.Id">Send for review</a>
+                    </td>
+                </tr>
+            }
+        </table>
 
-<h1>Your Drafts</h1>
-<hr />
-<button class="btn btn-primary" onclick="window.location='/Editors/Authors/AddNewDraft'">Add new draft</button>
-<br />
-<br />
-<table class="table table-bordered">
-    <tr>
-        <th>Date</th>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var draft in Model)
-    {
-        <tr>
-            <td>@draft.CreationDate.ToShortDateString()</td>
-            <td>@draft.Title</td>
-            <td>@draft.Category</td>
-            <td>
-                <a href="/Editors/Authors/DeleteDraft/@draft.Id">Delete</a> | <a href="/Editors/Authors/EditDraft/@draft.Id">Edit</a>
-                | <a href="/Editors/Authors/SendForReview/@draft.Id">Send for review</a>
-            </td>
-        </tr>
-    }
-</table>
+        <button class="btn btn-primary" onclick="window.location='/Editors/Authors/Index'">Authors Panel</button>
 
-<button class="btn btn-primary" onclick="window.location='/Editors/Authors/Index'">Authors Panel</button>
+</div>

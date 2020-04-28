@@ -3,13 +3,14 @@
     ViewData["Title"] = "Activate User";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Activate User</h1>
-<h2>Are you sure you want to activate @Model.UserName - @Model.Role</h2>
-<form method="post">
-    <input type="hidden" name="Id" value="@Model.Id" />
-    <input type="hidden" name="UserName" value="@Model.UserName" />
-    <input type="hidden" name="Role" value="@Model.Role" />
-    <input type="submit" class="btn btn-default" value="Yes" />
-</form>
-<button class="btn btn-default" onclick="window.location='/Editors/Users/AllUsers'">No</button>
+    <div class="container-fluid col-12">
+        <h1>Activate User</h1>
+        <h2>Are you sure you want to activate @Model.UserName - @Model.Role</h2>
+        <form method="post">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="UserName" value="@Model.UserName" />
+            <input type="hidden" name="Role" value="@Model.Role" />
+            <input type="submit" class="btn btn-default" value="Yes" />
+        </form>
+        <button class="btn btn-default" onclick="window.location='/Editors/Users/AllUsers'">No</button>
+    </div>

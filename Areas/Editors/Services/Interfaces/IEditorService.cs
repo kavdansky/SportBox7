@@ -13,25 +13,25 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
 {
     public interface IEditorService
     {
-        void AddNewDraft(AddArticleViewModel model);
+        public bool AddNewDraft(AddArticleViewModel model);
 
         public List<SelectListItem> GetUserCategories(IHttpContextAccessor httpContextAccessor);
 
         public List<Category> GetAllCategories();
 
-        ICollection<AllArticlesViewModel> LoadAllDrafts(string userId);
+        public ICollection<AllArticlesViewModel> LoadAllDrafts(string userId);
 
-        EditArticleViewModel EditDraftGetModel(int draftId);
+        public EditArticleViewModel EditDraftGetModel(int draftId);
 
-        void EditDraft(EditArticleViewModel model);
+        bool EditDraft(EditArticleViewModel model);
 
-        void DeleteDraft(int draftId);
+        bool DeleteDraft(int draftId);
 
-        AllArticlesViewModel GetDeleteDraftModel(int draftId);
+        public AllArticlesViewModel GetDeleteDraftModel(int draftId);
 
-        ICollection<AllArticlesViewModel> LoadArticlesForReview();
+        public ICollection<AllArticlesViewModel> LoadArticlesForReview();
 
-        ICollection<AllArticlesViewModel> LoadAllPublishedArticles();
+        public ICollection<AllArticlesViewModel> LoadAllPublishedArticles();
         
 
     }

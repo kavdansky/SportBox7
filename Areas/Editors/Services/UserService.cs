@@ -14,7 +14,6 @@ namespace SportBox7.Areas.Editors.Services
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IEditorService editorService;
-        private readonly RoleManager<IdentityRole> rolemanager;
         private readonly UserManager<User> userManager;
 
         public UserService(ApplicationDbContext dbContext,
@@ -24,7 +23,6 @@ namespace SportBox7.Areas.Editors.Services
         {
             this.editorService = editorService;
             this.dbContext = dbContext;
-            this.rolemanager = rolemanager;
             this.userManager = userManager;
         }
 
@@ -100,16 +98,17 @@ namespace SportBox7.Areas.Editors.Services
         public List<AllUsersViewModel> GetAllUsers()
         {
             var users = dbContext.Users.ToArray();
+            if (users == null)
+            {
+                return null;
+            }
             return users.Select(x => new AllUsersViewModel
             {
                 Id = x.Id,
                 UserName = x.UserName,
                 Role = GetCurrentUserRole(x),
                 UserCategories = GetCurrentUserCategoriesAsString(x),
-                IsActive = x.IsActive
-                
-                
-                
+                IsActive = x.IsActive                                         
             }).ToList();
         }
 
@@ -129,6 +128,10 @@ namespace SportBox7.Areas.Editors.Services
         {
             var allCategories = editorService.GetAllCategories();
             User user = dbContext.Users.Find(userId);
+            if (user == null)
+            {
+                return null;
+            }
             EditUserViewModel result = new EditUserViewModel();
             result.Id = user.Id;
             result.Email = user.Email;
@@ -173,6 +176,10 @@ namespace SportBox7.Areas.Editors.Services
         {
             List<string> currentUserCategories = new List<string>();
             var userCategoriesIds = dbContext.UserCategories.Where(c => c.UserId == x.Id).Select(x=> x.CategoryId).ToArray();
+            if (userCategoriesIds == null)
+            {
+                return null;
+            }
             var allCategories = dbContext.Categories.ToArray();
             foreach (var category in allCategories)
             {
@@ -192,10 +199,12 @@ namespace SportBox7.Areas.Editors.Services
 
         private string GetCurrentUserRole(User x)
         {
-            string userRoleId = dbContext.UserRoles.Where(u=> u.UserId == x.Id).FirstOrDefault().RoleId;
-            
-
-            return dbContext.Roles.Where(r => r.Id == userRoleId).FirstOrDefault().Name;
+            var userRole = dbContext.UserRoles.Where(u=> u.UserId == x.Id).FirstOrDefault();
+            if (userRole == null)
+            {
+                return null;
+            }
+            return dbContext.Roles.Where(r => r.Id == userRole.RoleId).FirstOrDefault().Name;
         }
     }
 }

@@ -10,7 +10,6 @@ namespace SportBox7.Areas.Editors.Services.Interfaces
         bool CheckDraftUserPermissions(string userId, int draftId);
 
         bool CheckArticleUserPermissions(string userId);
-
-        
+      
     }
 }

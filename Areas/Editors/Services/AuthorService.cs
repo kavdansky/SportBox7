@@ -29,17 +29,27 @@ namespace SportBox7.Areas.Editors.Services
             this.mapper = mapper;
         }
 
-        public void SentDraftForReview(int articleId)
+        public bool SentDraftForReview(int articleId)
         {
             Article articleForReview = dbContext.Articles.Find(articleId);
+            if (articleForReview == null)
+            {
+                return false;
+            }
             articleForReview.State = ArticleState.ForApproval;
             dbContext.SaveChanges();
+            return true;
         }
 
         public ICollection<AllArticlesViewModel> LoadMyArticlesForReview(string userId)
         {
             ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
             var userArticlesForReview = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.ForApproval && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
+
+            if (userArticlesForReview == null)
+            {
+                return null;
+            }
 
             foreach (var article in userArticlesForReview)
             {
@@ -55,6 +65,11 @@ namespace SportBox7.Areas.Editors.Services
         {
             ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
             var userArticlesForReview = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.Published && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
+
+            if (userArticlesForReview == null)
+            {
+                return null;
+            }
 
             foreach (var article in userArticlesForReview)
             {

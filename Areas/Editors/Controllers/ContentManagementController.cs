@@ -54,7 +54,7 @@ namespace SportBox7.Areas.Editors.Controllers
         {
 
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            if (ModelState.IsValid && userId != null)
+            if (ModelState.IsValid)
             {
                 model.CreatorId = userId;
                 editorService.AddNewDraft(model);
@@ -68,7 +68,6 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> AllDrafts()
         {
-            //TODO Check User and draft
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return View(editorService.LoadAllDrafts(userId));
         }
@@ -107,25 +106,20 @@ namespace SportBox7.Areas.Editors.Controllers
         [Area("Editors")]
         [HttpGet]
         public async Task<IActionResult> ArticlesForReview()
-        {
-            //TODO Validation
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return View(editorService.LoadArticlesForReview());
+        {       
+             return View(editorService.LoadArticlesForReview());          
         }
 
         [Area("Editors")]
         [HttpGet]
         public async Task<IActionResult> EditArticle(int id)
         {
-            //TODO Validation
+
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);
-            if (validationService.CheckArticleUserPermissions(userId))
-            {
-                var model = adminService.EditArticleGetModel(id);
-                return View(model);
-            }
-            return RedirectToAction("NotPermitted");
+            ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);            
+            var model = adminService.EditArticleGetModel(id);
+            return View(model);
+           
 
         }
 
@@ -136,11 +130,8 @@ namespace SportBox7.Areas.Editors.Controllers
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (ModelState.IsValid)
             {
-                if (validationService.CheckArticleUserPermissions(userId))
-                {
-                    adminService.EditArticle(model);
-                    return RedirectToAction("ArticlesForReview");
-                }
+                adminService.EditArticle(model);
+                return RedirectToAction("ArticlesForReview");                
             }
 
             return RedirectToAction("NotPermitted");
@@ -155,7 +146,6 @@ namespace SportBox7.Areas.Editors.Controllers
             {
                 adminService.UnPublish(id);
             }
-
             return RedirectToAction("AllPublishedArticles");
         }
 
@@ -163,8 +153,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> AllPublishedArticles()
         {
-            //TODO Validation
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+           
             return View(editorService.LoadAllPublishedArticles());
         }
 
@@ -172,7 +161,6 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> PublishArticle(int id)
         {
-            //TODO Validation
             adminService.PublishArticle(id);
             return RedirectToAction("AllPublishedArticles");
         }

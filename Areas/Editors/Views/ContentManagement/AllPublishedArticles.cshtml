@@ -4,29 +4,30 @@
     ViewData["Title"] = "AllPublishedArticles";
     Layout = "~/Areas/Editors/Views/Shared/_Layout.cshtml";
 }
+    <div class="container-fluid col-12">
+        <h1>All Published Articles</h1>
+        <hr />
+        <br />
+        <table class="table table-bordered">
+            <tr>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var article in Model)
+            {
+                <tr>
+                    <td>@article.CreationDate.ToShortDateString()</td>
+                    <td>@article.Title</td>
+                    <td>@article.Category</td>
+                    <td>
+                        <a href="/Editors/ContentManagement/EditArticle/@article.Id">View and Edit</a> | <a href="/Editors/ContentManagement/UnPublishArticle/@article.Id">Return for review</a>
+                    </td>
+                </tr>
+            }
+        </table>
 
-<h1>All Published Articles</h1>
-<hr />
-<br />
-<table class="table table-bordered">
-    <tr>
-        <th>Date</th>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Actions</th>
-    </tr>
-    @foreach (var article in Model)
-    {
-        <tr>
-            <td>@article.CreationDate.ToShortDateString()</td>
-            <td>@article.Title</td>
-            <td>@article.Category</td>
-            <td>
-                <a href="/Editors/ContentManagement/EditArticle/@article.Id">View and Edit</a> | <a href="/Editors/ContentManagement/UnPublishArticle/@article.Id">Return for review</a>
-            </td>
-        </tr>
-    }
-</table>
+        <button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Content Management Panel</button>
 
-<button class="btn btn-primary" onclick="window.location='/Editors/ContentManagement/Index'">Content Management Panel</button>
-
+</div>

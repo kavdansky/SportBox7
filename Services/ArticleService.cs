@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using SportBox7.Areas.Editors.Services.Interfaces;
 using SportBox7.Data;
 using SportBox7.Data.Enums;
 using SportBox7.Data.Models;
@@ -18,17 +19,37 @@ namespace SportBox7.Services
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IMapper mapper;
+        private readonly IEditorService editorService;
 
-        public ArticleService(ApplicationDbContext dbContext, IMapper mapper)
+        public ArticleService(ApplicationDbContext dbContext, IMapper mapper, IEditorService editorService)
         {
             this.dbContext = dbContext;
             this.mapper = mapper;
+            this.editorService = editorService;
         }
 
 
-        public List<Article> GetArticlesForHomePage()
+        public List<ArticleViewModel> GetArticlesForHomePage()
         {
-            return dbContext.Articles.Include(x=> x.Category).Include(x=> x.User).Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(a=> !a.IsDeleted && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();        
+            List<ArticleViewModel> result = new List<ArticleViewModel>();
+            var categories = editorService.GetAllCategories();
+            var orderedArticles =  dbContext.Articles.Include(x=> x.Category).Include(x=> x.User).Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(a=> !a.IsDeleted && a.State == ArticleState.Published).OrderByDescending(x => x.CreationDate).ToList();
+
+            if (orderedArticles == null)
+            {
+                return null;
+            }
+
+            foreach (var category in categories)
+            {
+                int firsArticleFromCategoryId = orderedArticles.Where(a => a.CategoryId == category.Id).FirstOrDefault().Id;
+                ArticleViewModel firsArticleFromCategory = GetSingleArticle(firsArticleFromCategoryId);
+                result.Add(firsArticleFromCategory);
+            }
+          
+            return result;
+
+            
         }
 
         public IList<NewsWidgetViewModel> GetNewsWidget()
@@ -44,7 +65,6 @@ namespace SportBox7.Services
 
         public ArticleViewModel GetSingleArticle(int id)
         {
-
             Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(x=> x.Id == id && !x.IsDeleted && x.State == ArticleState.Published).FirstOrDefault();
             if (articleInDb == null)
             {
@@ -68,7 +88,10 @@ namespace SportBox7.Services
         {
             ICollection<SideBarViewModel> model = new List<SideBarViewModel>();
             List<Category> categories = dbContext.Categories.ToList();
-
+            if (categories == null)
+            {
+                return null;
+            }
 
             for (int i = 0; i < categories.Count; i++)
             {

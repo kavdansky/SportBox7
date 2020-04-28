@@ -22,6 +22,9 @@ using SportBox7.Areas.Editors.Services;
 using SportBox7.Data.Models;
 using SportBox7.Areas.Editors.Services.HostedServices;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace SportBox7
 {
@@ -44,6 +47,7 @@ namespace SportBox7
             options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddMvc(options => options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
             services.AddControllersWithViews();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.Configure<CookiePolicyOptions>(options =>
@@ -54,6 +58,14 @@ namespace SportBox7
                 // requires using Microsoft.AspNetCore.Http;
                 options.MinimumSameSitePolicy = SameSiteMode.Strict;
                 
+            });
+            services.AddResponseCompression(options =>
+            {               
+                options.Providers.Add<GzipCompressionProvider>();          
+            });
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Fastest;
             });
             services.AddRazorPages();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -80,7 +92,7 @@ namespace SportBox7
             //app.Use(async (context, next) =>
             //await context.Response.WriteAsync("Hello from middleware :)")
             //);
-
+            app.UseStatusCodePagesWithReExecute("/Home/NotFound/{0}");
 
             if (env.IsDevelopment())
             {
@@ -93,10 +105,12 @@ namespace SportBox7
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseResponseCompression();
             app.UseCookiePolicy();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -13,8 +13,10 @@ namespace SportBox7.Areas.Editors.ViewModels.Content
         [Display(Name ="Date created")]
         public DateTime CreationDate { get; set; }
 
+        [Display(Name = "Title")]
         public string Title { get; set; }
 
+        [Display(Name = "Category")]
         public string Category { get; set; }
         
     }
