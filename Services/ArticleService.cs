@@ -65,7 +65,7 @@ namespace SportBox7.Services
 
         public ArticleViewModel GetSingleArticle(int id)
         {
-            Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(x=> x.Id == id && !x.IsDeleted && x.State == ArticleState.Published).FirstOrDefault();
+            Article articleInDb = dbContext.Articles.Include(x=> x.SocialSignals).Include(x=> x.ArticleSeoData).Where(x=> x.Id == id && x.IsDeleted == false && x.State == ArticleState.Published).FirstOrDefault();
             if (articleInDb == null)
             {
                 return null;

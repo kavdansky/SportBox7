@@ -16,15 +16,15 @@ namespace SportBox7.Data.Seed
         public static void Seed(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IApplicationBuilder app)
         {
             SeedRoles(roleManager);
-            Thread.Sleep(1000);
+            
             SeedUsers(userManager);
-            Thread.Sleep(1000);
+            
             SeedCategoties(app);
-            Thread.Sleep(1000);
+            
             SeedUserPermitedCategoties(app);
-            Thread.Sleep(1000);
+            
             SeedArticles(app);
-            Thread.Sleep(1000);
+            
             SeedArticlesSeoData(app);
         }
 

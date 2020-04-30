@@ -35,11 +35,22 @@ namespace SportBox7
             Configuration = configuration;
         }
 
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args);
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -77,9 +88,8 @@ namespace SportBox7
             services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<IExternalNewsService, ExternalNewsService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<ISocialService, SocialService>();
-            
-            //services.AddHostedService<BgFootballService>();
+            services.AddTransient<ISocialService, SocialService>();           
+            services.AddHostedService<BgFootballService>();
 
 
 
@@ -88,7 +98,7 @@ namespace SportBox7
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-
+            DBInitializer.Seed(userManager, roleManager, app);
             //app.Use(async (context, next) =>
             //await context.Response.WriteAsync("Hello from middleware :)")
             //);
@@ -135,7 +145,7 @@ namespace SportBox7
                 endpoints.MapRazorPages();
             });
 
-            DBInitializer.Seed(userManager, roleManager, app);
+            
 
         }
     }

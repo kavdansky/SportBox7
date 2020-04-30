@@ -114,13 +114,10 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> EditArticle(int id)
         {
-
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             ViewBag.ArticleCategories = editorService.GetUserCategories(httpContextAccessor);            
             var model = adminService.EditArticleGetModel(id);
             return View(model);
-           
-
         }
 
         [Area("Editors")]
@@ -161,6 +158,7 @@ namespace SportBox7.Areas.Editors.Controllers
         [HttpGet]
         public async Task<IActionResult> PublishArticle(int id)
         {
+
             adminService.PublishArticle(id);
             return RedirectToAction("AllPublishedArticles");
         }

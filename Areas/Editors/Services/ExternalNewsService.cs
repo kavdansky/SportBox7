@@ -103,7 +103,7 @@ namespace SportBox7.Areas.Editors.Services
                 return null;
             }
             Article newArticle = mapper.Map<Article>(rawArticle);
-            newArticle.TempArticleId = newArticle.Id;
+            newArticle.TempArticleId = rawArticle.Id;
             newArticle.Id = 0;
             newArticle.CreationDate = DateTime.UtcNow;
             newArticle.CreatorId = userId;
@@ -112,7 +112,7 @@ namespace SportBox7.Areas.Editors.Services
             rawArticle.IsDeleted = true;    
             dbContext.SaveChanges();
 
-            ArticleSeoData articleToEditSeoData = new ArticleSeoData() { ArticleId = newArticle.Id };
+            ArticleSeoData articleToEditSeoData = new ArticleSeoData() { ArticleId = newArticle.Id, MetaDescription = rawArticle.Title, MetaKeyword = rawArticle.Title.Replace(" "," ,"), MetaTitle = rawArticle.Title, SeoUrl = rawArticle.Title.Replace(" ", "-") };
             dbContext.ArticlesSeoData.Add(articleToEditSeoData);
             dbContext.SaveChanges();
             return newArticle.Id;

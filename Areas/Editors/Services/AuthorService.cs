@@ -63,6 +63,7 @@ namespace SportBox7.Areas.Editors.Services
 
         public ICollection<AllArticlesViewModel> LoadMyPublishedArticles(string userId)
         {
+            
             ICollection<AllArticlesViewModel> articlesToReturn = new List<AllArticlesViewModel>();
             var userArticlesForReview = dbContext.Articles.Where(d => d.CreatorId == userId && d.State == ArticleState.Published && d.IsDeleted == false).OrderByDescending(x => x.CreationDate);
 

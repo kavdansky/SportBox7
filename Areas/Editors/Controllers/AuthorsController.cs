@@ -141,7 +141,6 @@ namespace SportBox7.Areas.Editors.Controllers
             var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (validationService.CheckDraftUserPermissions(userId, id))
             {
-
                 return View(editorService.GetDeleteDraftModel(id));          
             }
             return RedirectToAction("NotPermitted");
